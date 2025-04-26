@@ -1,4 +1,5 @@
 import { StoryPanel } from '@/components/StoryPanel';
+import { VotePanel } from '@/components/VotePanel';
 import { FC, ReactNode } from 'react';
 
 type HomeProps = {
@@ -7,8 +8,9 @@ type HomeProps = {
 
 const Home: FC<HomeProps> = () => {
   return (
-    <div className="h-full">
+    <div className="h-full flex">
       <StoryPanel />
+      <VotePanel />
     </div>
   );
 };
