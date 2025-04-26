@@ -3,7 +3,7 @@ import { User } from '../User';
 
 const VotePanelHeader: FC = () => {
   return (
-    <div className="bg-[#021526] w-full h-20 sticky flex justify-between items-center px-5">
+    <div className="bg-[#1C5CA7] w-full h-20 sticky flex justify-between items-center px-5">
       <div className="text-white">
         <h1 className="text-2xl">
           User Story: #30571 - Add authentication layer in frontend
