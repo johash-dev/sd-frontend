@@ -1,14 +1,11 @@
 import './App.css';
-import { Layout } from './components/layout/Layout';
-import { Button } from './components/ui/button';
+import Home from './pages/Home';
 
 function App() {
   return (
-    <>
-      <Layout>
-        <Button>Test</Button>
-      </Layout>
-    </>
+    <div className="h-screen">
+      <Home />
+    </div>
   );
 }
 
