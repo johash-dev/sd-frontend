@@ -10,11 +10,11 @@ const StoryList: FC = () => {
         <ListHeader />
         <div className="flex-grow mt-2.5 px-2">
           <div className="flex flex-col gap-1.5">
+            {/* <ListItem />
             <ListItem />
             <ListItem />
             <ListItem />
-            <ListItem />
-            <ListItem />
+            <ListItem /> */}
           </div>
         </div>
         <ListFooter />

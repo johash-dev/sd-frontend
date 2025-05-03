@@ -5,6 +5,9 @@ import App from './App.tsx';
 import { createBrowserRouter, RouterProvider } from 'react-router';
 import { Login } from './pages/Login.tsx';
 import Home from './pages/Home.tsx';
+import { QuickStart } from './pages/QuickStart.tsx';
+import { store } from './app/store';
+import { Provider } from 'react-redux';
 
 const router = createBrowserRouter([
   {
@@ -16,8 +19,12 @@ const router = createBrowserRouter([
         element: <Login />,
       },
       {
-        path: 'home',
+        path: 'room/:id',
         element: <Home />,
+      },
+      {
+        path: 'quick-start',
+        element: <QuickStart />,
       },
     ],
   },
@@ -25,6 +32,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </StrictMode>
 );
