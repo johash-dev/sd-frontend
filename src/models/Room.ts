@@ -45,8 +45,30 @@ export interface Story {
   createdAt: Date;
 }
 
+export interface StoryDetail {
+  id: string;
+  title: string;
+  status: UserStoryStatus;
+  roomId: string;
+  createdAt: Date;
+  updatedAt: Date;
+  selected: boolean;
+}
+
 export enum UserStoryStatus {
   PENDING = 'pending',
   IN_ESTIMATION = 'in_estimation',
   ESTIMATED = 'estimated',
+}
+
+export interface UpdateStoryDto {
+  id: string;
+  roomId: string;
+  title?: string;
+  selected?: boolean;
+  status?: UserStoryStatus;
+  optimistic?: number;
+  realistic?: number;
+  pessimistic?: number;
+  ready?: boolean;
 }

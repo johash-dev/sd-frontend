@@ -7,7 +7,6 @@ export const AuthAPI = {
   login: async (
     loginFormData: LoginFormData
   ): Promise<AxiosResponse<AuthUser>> => {
-    console.log('login');
     return await axios.post<AuthUser>('/auth/login', loginFormData);
   },
 };

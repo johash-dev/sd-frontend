@@ -14,7 +14,6 @@ const StoryList: FC = () => {
 
   useEffect(() => {
     socket.on('storyCreated', (storyDto: Story) => {
-      console.log(storyDto);
       dispatch(addStoryToRoom(storyDto));
     });
   }, []);
@@ -26,7 +25,13 @@ const StoryList: FC = () => {
         <div className="flex-grow mt-2.5 px-2">
           <div className="flex flex-col gap-1.5">
             {roomDetail?.stories.map((detail) => {
-              return <ListItem title={detail.title} key={detail.id} />;
+              return (
+                <ListItem
+                  key={detail.id}
+                  detail={detail}
+                  roomId={roomDetail.id}
+                />
+              );
             })}
           </div>
         </div>

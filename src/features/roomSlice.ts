@@ -1,17 +1,27 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { RoomAPI } from '@/api/room-api';
-import { RoomDto, Room, RoomDetail, Story, StoryDto } from '@/models/Room';
+import {
+  RoomDto,
+  Room,
+  RoomDetail,
+  Story,
+  StoryDto,
+  StoryDetail,
+  UpdateStoryDto,
+} from '@/models/Room';
 import { StoryAPI } from '@/api/story-api';
 
 export interface RoomState {
   room: Room | null;
   roomDetail: RoomDetail | null;
+  selectedStory: StoryDetail | null;
 }
 
 const initialState: RoomState = {
   room: null,
   roomDetail: null,
+  selectedStory: null,
 };
 
 export const createRoom = createAsyncThunk(
@@ -38,6 +48,16 @@ export const creatStoryForRoom = createAsyncThunk(
   }
 );
 
+export const updateRoomStory = createAsyncThunk(
+  'room/updateStory',
+  async (storyDto: UpdateStoryDto) => {
+    console.log(storyDto);
+
+    const response = await StoryAPI.updateStory(storyDto);
+    return response.data;
+  }
+);
+
 export const roomSlice = createSlice({
   name: 'room',
   initialState,
@@ -47,6 +67,19 @@ export const roomSlice = createSlice({
     },
     setRoomDetail: (state, action: PayloadAction<RoomDetail>) => {
       state.roomDetail = action.payload;
+    },
+    updateStory: (state, action: PayloadAction<StoryDetail>) => {
+      if (state.roomDetail) {
+        state.roomDetail.stories.forEach((story) => {
+          if (story.id === action.payload.id) {
+            story.status = action.payload.status;
+            story.title = action.payload.title;
+          }
+        });
+      }
+      if (action.payload.selected) {
+        state.selectedStory = action.payload;
+      }
     },
     addStoryToRoom: (state, action: PayloadAction<Story>) => {
       if (state.roomDetail) {
@@ -65,15 +98,13 @@ export const roomSlice = createSlice({
       state.room = action.payload;
     });
     builder.addCase(getRoom.fulfilled, (state, action) => {
-      console.log(action.payload);
-
       state.roomDetail = action.payload;
     });
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { createNewRoom, setRoomDetail, addStoryToRoom } =
+export const { createNewRoom, setRoomDetail, addStoryToRoom, updateStory } =
   roomSlice.actions;
 
 export default roomSlice.reducer;

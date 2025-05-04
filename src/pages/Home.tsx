@@ -2,13 +2,12 @@ import { StoryPanel } from '@/components/StoryPanel';
 import { VotePanel } from '@/components/VotePanel';
 import { FC, ReactNode, useEffect } from 'react';
 import socket from '@/socket';
-import { RoomDetail, Story } from '@/models/Room';
+import { RoomDetail, Story, StoryDetail } from '@/models/Room';
 import { RootState, useAppDispatch } from '@/app/store';
 import {
   addStoryToRoom,
-  createRoom,
-  getRoom,
   setRoomDetail,
+  updateStory,
 } from '@/features/roomSlice';
 import { useParams } from 'react-router';
 import { useSelector } from 'react-redux';
@@ -33,7 +32,13 @@ const Home: FC<HomeProps> = () => {
     socket.on('rejoined', (response: RoomDetail) => {
       dispatch(setRoomDetail(response));
     });
-  });
+
+    socket.on('storyUpdated', (response: StoryDetail) => {
+      console.log('storyUpdate', response);
+
+      dispatch(updateStory(response));
+    });
+  }, []);
 
   // useEffect(() => {
   //   if (params.id) {
