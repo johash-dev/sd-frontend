@@ -6,7 +6,7 @@ export interface AuthUser {
 }
 
 export interface User {
-  id: number;
+  id: string;
   firstName: string;
   email: string;
   password: string;

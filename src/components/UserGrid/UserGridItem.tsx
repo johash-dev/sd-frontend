@@ -1,15 +1,41 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import PokerCard from '../PokerCard';
 import { Button } from '../ui/button';
 import { RiMore2Fill } from '@remixicon/react';
-import { User } from '@/models/Auth';
+
 import { Participant } from '@/models/Room';
+import socket from '@/socket';
+import { RootState, useAppDispatch } from '@/app/store';
+import { addEstimationToStory } from '@/features/roomSlice';
+import { useSelector } from 'react-redux';
 
 type UserGridItemProps = {
   participant: Participant;
 };
 
 const UserGridItem: FC<UserGridItemProps> = ({ participant }) => {
+  const dispatch = useAppDispatch();
+  const { selectedStory } = useSelector((state: RootState) => state.room);
+
+  useEffect(() => {
+    socket.on('storyEstimationStarted', () => {
+      console.log('storyEstimationStarted');
+
+      if (selectedStory) {
+        dispatch(
+          addEstimationToStory({
+            userId: participant.user.id,
+            storyId: selectedStory?.id,
+            optimistic: null,
+            pessimistic: null,
+            realistic: null,
+            ready: false,
+          })
+        );
+      }
+    });
+  }, []);
+
   return (
     <div className="flex items-center justify-between bg-white px-5 py-5 relative">
       <div className="flex flex-col items-center gap-2.5">

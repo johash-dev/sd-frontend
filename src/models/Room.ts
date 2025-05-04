@@ -43,6 +43,27 @@ export interface Story {
   status: UserStoryStatus;
   roomId: string;
   createdAt: Date;
+  updatedAt: Date;
+  selected: boolean;
+}
+
+export interface EstimationDto {
+  storyId: string;
+  userId: string;
+  optimistic: number | null;
+  realistic: number | null;
+  pessimistic: number | null;
+  ready: boolean;
+}
+
+export interface Estimation {
+  id: string;
+  storyId: string;
+  userId: string;
+  optimistic: number;
+  realistic: number;
+  pessimistic: number;
+  ready: boolean;
 }
 
 export interface StoryDetail {
@@ -53,6 +74,7 @@ export interface StoryDetail {
   createdAt: Date;
   updatedAt: Date;
   selected: boolean;
+  estimations: EstimationDto[];
 }
 
 export enum UserStoryStatus {

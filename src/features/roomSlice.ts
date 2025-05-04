@@ -9,6 +9,7 @@ import {
   StoryDto,
   StoryDetail,
   UpdateStoryDto,
+  EstimationDto,
 } from '@/models/Room';
 import { StoryAPI } from '@/api/story-api';
 
@@ -16,12 +17,14 @@ export interface RoomState {
   room: Room | null;
   roomDetail: RoomDetail | null;
   selectedStory: StoryDetail | null;
+  revealResults: boolean;
 }
 
 const initialState: RoomState = {
   room: null,
   roomDetail: null,
   selectedStory: null,
+  revealResults: false,
 };
 
 export const createRoom = createAsyncThunk(
@@ -92,6 +95,16 @@ export const roomSlice = createSlice({
         }
       }
     },
+    addEstimationToStory: (state, action: PayloadAction<EstimationDto>) => {
+      console.log('ACTION PAYLOAD', action.payload);
+
+      if (state.selectedStory) {
+        state.selectedStory.estimations = [
+          ...state.selectedStory.estimations,
+          action.payload,
+        ];
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(createRoom.fulfilled, (state, action) => {
@@ -104,7 +117,12 @@ export const roomSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { createNewRoom, setRoomDetail, addStoryToRoom, updateStory } =
-  roomSlice.actions;
+export const {
+  createNewRoom,
+  setRoomDetail,
+  addStoryToRoom,
+  updateStory,
+  addEstimationToStory,
+} = roomSlice.actions;
 
 export default roomSlice.reducer;
