@@ -50,9 +50,12 @@ export const roomSlice = createSlice({
     },
     addStoryToRoom: (state, action: PayloadAction<Story>) => {
       if (state.roomDetail) {
-        const currentStories = state.roomDetail.stories;
-        if (currentStories) {
-          currentStories.push(action.payload);
+        const exists = state.roomDetail.stories.some(
+          (story) => story.id === action.payload.id
+        );
+
+        if (!exists) {
+          state.roomDetail.stories.push(action.payload);
         }
       }
     },
