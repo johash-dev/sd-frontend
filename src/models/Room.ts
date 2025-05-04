@@ -4,6 +4,11 @@ export interface RoomDto {
   title: string;
 }
 
+export interface StoryDto {
+  roomId: string;
+  title: string;
+}
+
 export interface Room {
   id: number;
   roomCode: string;
@@ -19,15 +24,29 @@ export interface RoomOwner {
 }
 
 export interface RoomDetail {
-  id: number;
+  id: string;
   owner: RoomOwner;
   participants: Participant[];
   roomCode: string;
-  stories: Array<string>;
+  stories: Array<Story>;
   title: string;
 }
 
 export interface Participant {
   id: number;
   user: User;
+}
+
+export interface Story {
+  id: string;
+  title: string;
+  status: UserStoryStatus;
+  roomId: string;
+  createdAt: Date;
+}
+
+export enum UserStoryStatus {
+  PENDING = 'pending',
+  IN_ESTIMATION = 'in_estimation',
+  ESTIMATED = 'estimated',
 }

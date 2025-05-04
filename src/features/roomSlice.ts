@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { RoomAPI } from '@/api/room-api';
-import { RoomDto, Room, RoomDetail } from '@/models/Room';
+import { RoomDto, Room, RoomDetail, Story, StoryDto } from '@/models/Room';
+import { StoryAPI } from '@/api/story-api';
 
 export interface RoomState {
   room: Room | null;
@@ -21,6 +22,22 @@ export const createRoom = createAsyncThunk(
   }
 );
 
+export const getRoom = createAsyncThunk(
+  'room/getRoom',
+  async (roomCode: string) => {
+    const response = await RoomAPI.getRoom(roomCode);
+    return response.data;
+  }
+);
+
+export const creatStoryForRoom = createAsyncThunk(
+  'room/createStory',
+  async (storyDto: StoryDto) => {
+    const response = await StoryAPI.createStory(storyDto);
+    return response.data;
+  }
+);
+
 export const roomSlice = createSlice({
   name: 'room',
   initialState,
@@ -31,15 +48,29 @@ export const roomSlice = createSlice({
     setRoomDetail: (state, action: PayloadAction<RoomDetail>) => {
       state.roomDetail = action.payload;
     },
+    addStoryToRoom: (state, action: PayloadAction<Story>) => {
+      if (state.roomDetail) {
+        const currentStories = state.roomDetail.stories;
+        if (currentStories) {
+          currentStories.push(action.payload);
+        }
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(createRoom.fulfilled, (state, action) => {
       state.room = action.payload;
     });
+    builder.addCase(getRoom.fulfilled, (state, action) => {
+      console.log(action.payload);
+
+      state.roomDetail = action.payload;
+    });
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { createNewRoom, setRoomDetail } = roomSlice.actions;
+export const { createNewRoom, setRoomDetail, addStoryToRoom } =
+  roomSlice.actions;
 
 export default roomSlice.reducer;
