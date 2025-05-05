@@ -1,5 +1,6 @@
 import socket from './index';
 import { JoinRoomDto } from './models/room.models';
+import { CreateStoryDto } from './models/story.models';
 import { SOCKET_EVENTS } from './socket-events';
 
 export const SocketEventHandler = {
@@ -7,8 +8,9 @@ export const SocketEventHandler = {
     socket.emit(SOCKET_EVENTS.CREATE_ROOM, joinRoomDto);
   },
   handleJoinRoom: (joinRoomDto: JoinRoomDto) => {
-    console.log('EMIT JOIN_ROOM');
-
     socket.emit(SOCKET_EVENTS.JOIN_ROOM, joinRoomDto);
+  },
+  handleCreateStory: (createStoryDto: CreateStoryDto) => {
+    socket.emit(SOCKET_EVENTS.JOIN_ROOM, createStoryDto);
   },
 };

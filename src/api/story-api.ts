@@ -1,10 +1,13 @@
 import axios from '@/axios';
-import { Story, StoryDetail, StoryDto, UpdateStoryDto } from '@/models/Room';
+import { StoryDetail, UpdateStoryDto } from '@/models/Room';
+import { CreateStoryDto, StorySummaryDto } from '@/models/Story';
 import { AxiosResponse } from 'axios';
 
 export const StoryAPI = {
-  createStory: async (storyDto: StoryDto): Promise<AxiosResponse<Story>> => {
-    return await axios.post<Story>('/story', storyDto);
+  createStory: async (
+    createStoryDto: CreateStoryDto
+  ): Promise<AxiosResponse<StorySummaryDto>> => {
+    return await axios.post<StorySummaryDto>('/story', createStoryDto);
   },
   updateStory: async (
     updateStoryDto: UpdateStoryDto

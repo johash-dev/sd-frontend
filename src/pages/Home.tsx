@@ -7,6 +7,7 @@ import { useParams } from 'react-router';
 import socket from '@/socket';
 import { SOCKET_EVENTS } from '@/socket/socket-events';
 import { JoinRoomDto } from '@/socket/models/room.models';
+import { CreateStoryDto } from '@/socket/models/story.models';
 
 type HomeProps = {
   children?: ReactNode;
@@ -28,6 +29,10 @@ const Home: FC<HomeProps> = () => {
 
   useEffect(() => {
     socket.on(SOCKET_EVENTS.USER_JOINED, (response: JoinRoomDto) => {
+      dispatch(getRoom(response.roomCode));
+    });
+
+    socket.on(SOCKET_EVENTS.CREATED_STORY, (response: CreateStoryDto) => {
       dispatch(getRoom(response.roomCode));
     });
   }, []);

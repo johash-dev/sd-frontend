@@ -5,6 +5,11 @@ export interface StorySummaryDto {
   status: UserStoryStatus;
 }
 
+export interface CreateStoryDto {
+  roomId: string;
+  title: string;
+}
+
 export enum UserStoryStatus {
   PENDING = 'PENDING',
   ACTIVE = 'ACTIVE',

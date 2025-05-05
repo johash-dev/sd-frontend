@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RoomAPI } from '@/api/room-api';
 import {
   RoomDetail,
-  StoryDto,
   StoryDetail,
   UpdateStoryDto,
   CreateRoomDto,
@@ -11,6 +10,7 @@ import {
 import { StoryAPI } from '@/api/story-api';
 import { SocketEventHandler } from '@/socket/socket-event.handler';
 import { JoinRoomDto } from '@/socket/models/room.models';
+import { CreateStoryDto } from '@/models/Story';
 
 export interface RoomState {
   room: RoomResponseDto | null;
@@ -50,10 +50,10 @@ export const getRoom = createAsyncThunk(
   }
 );
 
-export const creatStoryForRoom = createAsyncThunk(
+export const createStory = createAsyncThunk(
   'room/createStory',
-  async (storyDto: StoryDto) => {
-    const response = await StoryAPI.createStory(storyDto);
+  async (createStoryDto: CreateStoryDto) => {
+    const response = await StoryAPI.createStory(createStoryDto);
     return response.data;
   }
 );
@@ -91,6 +91,14 @@ export const roomSlice = createSlice({
     });
     builder.addCase(getRoom.fulfilled, (state, { payload }) => {
       state.room = payload;
+    });
+    builder.addCase(createStory.fulfilled, (state, { payload }) => {
+      if (payload && state.room) {
+        SocketEventHandler.handleCreateStory({
+          roomCode: state.room.roomCode,
+          story: payload,
+        });
+      }
     });
   },
 });

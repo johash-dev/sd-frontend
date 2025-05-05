@@ -15,7 +15,6 @@ export interface RoomResponseDto {
   participants: UserResponseDto[];
   stories: StorySummaryDto[];
 }
-
 export interface RoomDto {
   title: string;
 }
