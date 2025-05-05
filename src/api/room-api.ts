@@ -1,12 +1,22 @@
 import axios from '@/axios';
-import { Room, RoomDetail, RoomDto } from '@/models/Room';
+import { CreateRoomDto, RoomResponseDto } from '@/models/Room';
+import { JoinRoomResponseDto } from '@/socket/models/room.models';
 import { AxiosResponse } from 'axios';
 
 export const RoomAPI = {
-  createRoom: async (roomDto: RoomDto): Promise<AxiosResponse<Room>> => {
-    return await axios.post<Room>('/room', roomDto);
+  createRoom: async (
+    createRoomDto: CreateRoomDto
+  ): Promise<AxiosResponse<RoomResponseDto>> => {
+    return await axios.post<RoomResponseDto>('/room', createRoomDto);
   },
-  getRoom: async (roomCode: string): Promise<AxiosResponse<RoomDetail>> => {
-    return await axios.get<RoomDetail>(`/room/${roomCode}`);
+  joinRoom: async (
+    roomCode: string
+  ): Promise<AxiosResponse<JoinRoomResponseDto>> => {
+    return await axios.post<JoinRoomResponseDto>(`/room/join/${roomCode}`);
+  },
+  getRoom: async (
+    roomCode: string
+  ): Promise<AxiosResponse<RoomResponseDto>> => {
+    return await axios.get<RoomResponseDto>(`/room/${roomCode}`);
   },
 };

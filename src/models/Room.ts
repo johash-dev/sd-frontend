@@ -1,4 +1,20 @@
 import { User } from './Auth';
+import { StorySummaryDto } from './Story';
+import { UserResponseDto } from './User';
+
+export interface CreateRoomDto {
+  title: string;
+}
+
+export interface RoomResponseDto {
+  id: string;
+  title: string;
+  description?: string;
+  roomCode: string;
+  owner: UserResponseDto;
+  participants: UserResponseDto[];
+  stories: StorySummaryDto[];
+}
 
 export interface RoomDto {
   title: string;
@@ -26,7 +42,7 @@ export interface RoomOwner {
 export interface RoomDetail {
   id: string;
   owner: RoomOwner;
-  participants: Participant[];
+  participants: User[];
   roomCode: string;
   stories: Array<Story>;
   title: string;

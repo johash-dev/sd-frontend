@@ -5,7 +5,7 @@ import App from './App.tsx';
 import { createBrowserRouter, RouterProvider } from 'react-router';
 import { Login } from './pages/Login.tsx';
 import Home from './pages/Home.tsx';
-import { QuickStart } from './pages/QuickStart.tsx';
+import { Dashboard } from './pages/Dashboard.tsx';
 import { store } from './app/store';
 import { Provider } from 'react-redux';
 
@@ -19,12 +19,12 @@ const router = createBrowserRouter([
         element: <Login />,
       },
       {
-        path: 'room/:id',
+        path: 'room/:roomCode',
         element: <Home />,
       },
       {
-        path: 'quick-start',
-        element: <QuickStart />,
+        path: 'dashboard',
+        element: <Dashboard />,
       },
     ],
   },

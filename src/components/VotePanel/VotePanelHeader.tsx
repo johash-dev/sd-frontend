@@ -9,9 +9,12 @@ import { UserStoryStatus } from '@/models/Room';
 const VotePanelHeader: FC = () => {
   const dispatch = useAppDispatch();
   const { user } = useSelector((state: RootState) => state.auth);
-  const { selectedStory, roomDetail } = useSelector(
-    (state: RootState) => state.room
-  );
+  const { selectedStory } = useSelector((state: RootState) => {
+    const story = state.room.roomDetail?.stories.find((s) => s.selected);
+    return { selectedStory: story };
+  });
+
+  const { roomDetail } = useSelector((state: RootState) => state.room);
 
   const startEstimationsClickHandler = () => {
     if (selectedStory && roomDetail) {

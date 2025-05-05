@@ -1,62 +1,34 @@
 import { StoryPanel } from '@/components/StoryPanel';
 import { VotePanel } from '@/components/VotePanel';
 import { FC, ReactNode, useEffect } from 'react';
-import socket from '@/socket';
-import { RoomDetail, Story, StoryDetail } from '@/models/Room';
-import { RootState, useAppDispatch } from '@/app/store';
-import {
-  addStoryToRoom,
-  setRoomDetail,
-  updateStory,
-} from '@/features/roomSlice';
+import { useAppDispatch } from '@/app/store';
+import { getRoom, joinRoom } from '@/features/roomSlice';
 import { useParams } from 'react-router';
-import { useSelector } from 'react-redux';
+import socket from '@/socket';
+import { SOCKET_EVENTS } from '@/socket/socket-events';
+import { JoinRoomDto } from '@/socket/models/room.models';
 
 type HomeProps = {
   children?: ReactNode;
 };
 
+type RouteParams = {
+  roomCode: string;
+};
+
 const Home: FC<HomeProps> = () => {
   const dispatch = useAppDispatch();
-  const { roomDetail } = useSelector((state: RootState) => state.room);
-  const { user } = useSelector((state: RootState) => state.auth);
-  const params = useParams<{ id: string }>();
+  const params = useParams<RouteParams>();
 
   useEffect(() => {
-    if (params.id) {
-      socket.emit('rejoinRoom', params.id);
+    if (params && params.roomCode) {
+      dispatch(joinRoom(params.roomCode));
     }
-  }, [params]);
+  }, [params, dispatch]);
 
   useEffect(() => {
-    socket.on('rejoined', (response: RoomDetail) => {
-      dispatch(setRoomDetail(response));
-    });
-
-    socket.on('storyUpdated', (response: StoryDetail) => {
-      console.log('storyUpdate', response);
-
-      dispatch(updateStory(response));
-    });
-  }, []);
-
-  // useEffect(() => {
-  //   if (params.id) {
-  //     dispatch(getRoom(params.id));
-  //   }
-  // });
-
-  useEffect(() => {
-    // if(roomDetail && user) {
-    //   if(roomDetail.owner.id === user.id) {
-    //     dispatch(createRoom())
-    //   }
-    // }
-  }, [roomDetail, user]);
-
-  useEffect(() => {
-    socket.on('storyCreated', (story: Story) => {
-      dispatch(addStoryToRoom(story));
+    socket.on(SOCKET_EVENTS.USER_JOINED, (response: JoinRoomDto) => {
+      dispatch(getRoom(response.roomCode));
     });
   }, []);
 

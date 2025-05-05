@@ -1,22 +1,12 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { ListHeader } from './ListHeader';
 import { ListFooter } from './ListFooter';
 import ListItem from './ListItem';
-import socket from '@/socket';
-import { Story } from '@/models/Room';
-import { RootState, useAppDispatch } from '@/app/store';
-import { addStoryToRoom } from '@/features/roomSlice';
+import { RootState } from '@/app/store';
 import { useSelector } from 'react-redux';
 
 const StoryList: FC = () => {
-  const dispatch = useAppDispatch();
-  const { roomDetail } = useSelector((state: RootState) => state.room);
-
-  useEffect(() => {
-    socket.on('storyCreated', (storyDto: Story) => {
-      dispatch(addStoryToRoom(storyDto));
-    });
-  }, []);
+  const { room } = useSelector((state: RootState) => state.room);
 
   return (
     <div className="flex-grow bg-[#F4F4F4]">
@@ -24,13 +14,9 @@ const StoryList: FC = () => {
         <ListHeader />
         <div className="flex-grow mt-2.5 px-2">
           <div className="flex flex-col gap-1.5">
-            {roomDetail?.stories.map((detail) => {
+            {room?.stories.map((story) => {
               return (
-                <ListItem
-                  key={detail.id}
-                  detail={detail}
-                  roomId={roomDetail.id}
-                />
+                <ListItem key={story.id} detail={story} roomId={room.id} />
               );
             })}
           </div>

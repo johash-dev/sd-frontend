@@ -1,12 +1,12 @@
 import { FC } from 'react';
 import { Button } from '../ui/button';
 import { RiMore2Fill } from '@remixicon/react';
-import { Story } from '@/models/Room';
 import { useAppDispatch } from '@/app/store';
 import { updateRoomStory } from '@/features/roomSlice';
+import { StorySummaryDto } from '@/models/Story';
 
 type ListItemProps = {
-  detail: Story;
+  detail: StorySummaryDto;
   roomId: string;
 };
 
