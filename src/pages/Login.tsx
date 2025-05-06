@@ -11,7 +11,7 @@ const Login: FC = () => {
 
   useEffect(() => {
     if (user) {
-      navigate('/quick-start');
+      navigate('/dashboard');
       handleLogin(user.token);
     }
   }, [user, navigate]);
