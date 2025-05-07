@@ -1,27 +1,16 @@
 import { useEffect } from 'react';
 import './App.css';
 import { Outlet, useNavigate } from 'react-router';
-import { AuthUser } from './models/Auth';
-import { useAppDispatch } from './app/store';
-import { setUser, verifyToken } from './features/authSlice';
+import { RootState, useAppDispatch } from './app/store';
+import { verifyToken } from './features/authSlice';
 import socket from './socket';
 import { AppSessionStorage } from './lib/utils';
+import { useSelector } from 'react-redux';
 
 function App() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   const userJson = localStorage.getItem('user');
-  //   if (userJson) {
-  //     const user: AuthUser = JSON.parse(userJson);
-  //     dispatch(setUser(user));
-  //     socket.auth = { token: user.token };
-  //     socket.connect();
-  //   } else {
-  //     navigate('/login');
-  //   }
-  // }, []);
+  const { user } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
     const user = AppSessionStorage.getUser();
@@ -31,6 +20,13 @@ function App() {
       navigate('/login');
     }
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      socket.auth = { token: user.token };
+      socket.connect();
+    }
+  }, [user]);
 
   return (
     <div className="h-screen">
