@@ -5,12 +5,11 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { RoomCard, type Room } from './RoomCard';
+import { RoomCard } from './RoomCard';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/store';
 
 interface RoomListProps {
-  rooms: Room[];
   onContinue: (roomId: string) => void;
 }
 

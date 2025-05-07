@@ -4,9 +4,8 @@ import { createRoom, getAllRooms, joinRoom } from '@/features/roomSlice';
 import socket from '@/socket';
 import { JoinRoomDto } from '@/socket/models/room.models';
 import { SOCKET_EVENTS } from '@/socket/socket-events';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import type { Room } from '@/components/RoomList/RoomCard';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { CreateRoomForm } from '@/components/CreateRoomForm';
 import { JoinRoomForm } from '@/components/JoinRoomForm';
@@ -14,33 +13,6 @@ import { User } from '@/components/User';
 import { useSelector } from 'react-redux';
 
 const Dashboard: FC = () => {
-  const [previousRooms] = useState<Room[]>([
-    {
-      id: '1',
-      title: 'Sprint 45 Planning',
-      participants: 8,
-      lastActive: '2 hours ago',
-    },
-    {
-      id: '2',
-      title: 'Bug Prioritization',
-      participants: 5,
-      lastActive: 'Yesterday',
-    },
-    {
-      id: '3',
-      title: 'Feature Estimation',
-      participants: 6,
-      lastActive: '3 days ago',
-    },
-    {
-      id: '4',
-      title: 'Backlog Refinement',
-      participants: 4,
-      lastActive: '1 week ago',
-    },
-  ]);
-
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state: RootState) => state.auth);
@@ -63,7 +35,7 @@ const Dashboard: FC = () => {
     socket.on(SOCKET_EVENTS.USER_JOINED, (response: JoinRoomDto) => {
       console.log('response', response);
 
-      if (response && response.roomCode) {
+      if (response && response.roomCode && response.user.id === user?.id) {
         navigate(`/room/${response.roomCode}`);
       }
     });
@@ -99,7 +71,7 @@ const Dashboard: FC = () => {
 
         <div className="grid gap-8 md:grid-cols-3">
           <div className="md:col-span-2">
-            <RoomList rooms={previousRooms} onContinue={handleContinueRoom} />
+            <RoomList onContinue={handleContinueRoom} />
           </div>
 
           <div>
