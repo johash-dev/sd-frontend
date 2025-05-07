@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import { RoomResponseDto } from '@/models/Room';
 import { Users, Clock, ArrowRight } from 'lucide-react';
 
 export interface Room {
@@ -9,7 +10,7 @@ export interface Room {
 }
 
 interface RoomCardProps {
-  room: Room;
+  room: RoomResponseDto;
   onContinue: (roomId: string) => void;
 }
 
@@ -21,15 +22,19 @@ export function RoomCard({ room, onContinue }: RoomCardProps) {
         <div className="flex items-center gap-4 text-sm text-muted-foreground">
           <div className="flex items-center gap-1">
             <Users className="h-4 w-4" />
-            <span>{room.participants} participants</span>
+            <span>{room.participants.length} participants</span>
           </div>
           <div className="flex items-center gap-1">
             <Clock className="h-4 w-4" />
-            <span>{room.lastActive}</span>
+            {/* <span>{room.lastActive}</span> */}
           </div>
         </div>
       </div>
-      <Button variant="outline" size="sm" onClick={() => onContinue(room.id)}>
+      <Button
+        variant="outline"
+        size="sm"
+        onClick={() => onContinue(room.roomCode)}
+      >
         Continue <ArrowRight className="ml-2 h-4 w-4" />
       </Button>
     </div>

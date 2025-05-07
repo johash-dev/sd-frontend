@@ -1,18 +1,17 @@
-import { useAppDispatch } from '@/app/store';
+import { RootState, useAppDispatch } from '@/app/store';
 import { RoomList } from '@/components/RoomList';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { createRoom, joinRoom } from '@/features/roomSlice';
+import { createRoom, getAllRooms, joinRoom } from '@/features/roomSlice';
 import socket from '@/socket';
 import { JoinRoomDto } from '@/socket/models/room.models';
 import { SOCKET_EVENTS } from '@/socket/socket-events';
-import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import type { Room } from '@/components/RoomList/RoomCard';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { CreateRoomForm } from '@/components/CreateRoomForm';
 import { JoinRoomForm } from '@/components/JoinRoomForm';
 import { User } from '@/components/User';
+import { useSelector } from 'react-redux';
 
 const Dashboard: FC = () => {
   const [previousRooms] = useState<Room[]>([
@@ -44,29 +43,13 @@ const Dashboard: FC = () => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { user } = useSelector((state: RootState) => state.auth);
 
-  const [roomCode, setRoomCode] = useState<string>('');
-  const [roomTitle, setRoomTitle] = useState<string>('');
-
-  const roomCodeChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setRoomCode(e.target.value);
-  };
-
-  const roomTitleChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setRoomTitle(e.target.value);
-  };
-
-  const createRoomClickHandler = () => {
-    if (roomTitle) {
-      dispatch(createRoom({ title: roomTitle }));
+  useEffect(() => {
+    if (user) {
+      dispatch(getAllRooms());
     }
-  };
-
-  const joinRoomClickHandler = () => {
-    if (roomCode) {
-      dispatch(joinRoom(roomCode));
-    }
-  };
+  }, [user]);
 
   useEffect(() => {
     socket.on(SOCKET_EVENTS.CREATED_ROOM, (response: JoinRoomDto) => {
@@ -87,18 +70,15 @@ const Dashboard: FC = () => {
   }, []);
 
   const handleCreateRoom = (title: string) => {
-    // Handle room creation logic here
-    console.log('Creating room:', title);
+    dispatch(createRoom({ title }));
   };
 
-  const handleJoinRoom = (code: string) => {
-    // Handle room joining logic here
-    console.log('Joining room:', code);
+  const handleJoinRoom = (roomCode: string) => {
+    dispatch(joinRoom(roomCode));
   };
 
-  const handleContinueRoom = (roomId: string) => {
-    // Handle continuing to an existing room
-    console.log('Continuing to room:', roomId);
+  const handleContinueRoom = (roomCode: string) => {
+    dispatch(joinRoom(roomCode));
   };
 
   return (
@@ -110,7 +90,7 @@ const Dashboard: FC = () => {
       <div className="container mx-auto mt-8">
         <header className="mb-8">
           <h1 className="text-3xl font-semibold tracking-tight">
-            Welcome User!
+            Welcome {user?.firstName}!
           </h1>
           <p className="text-muted-foreground mt-2">
             Estimate user stories with your team

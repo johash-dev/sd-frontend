@@ -17,6 +17,7 @@ export interface RoomState {
   roomDetail: RoomDetail | null;
   selectedStory: StoryDetail | null;
   revealResults: boolean;
+  userRooms: RoomResponseDto[];
 }
 
 const initialState: RoomState = {
@@ -24,6 +25,7 @@ const initialState: RoomState = {
   roomDetail: null,
   selectedStory: null,
   revealResults: false,
+  userRooms: [],
 };
 
 export const createRoom = createAsyncThunk(
@@ -49,6 +51,11 @@ export const getRoom = createAsyncThunk(
     return response.data;
   }
 );
+
+export const getAllRooms = createAsyncThunk('room/getAllRooms', async () => {
+  const response = await RoomAPI.getAllRooms();
+  return response.data;
+});
 
 export const createStory = createAsyncThunk(
   'room/createStory',
@@ -91,6 +98,9 @@ export const roomSlice = createSlice({
     });
     builder.addCase(getRoom.fulfilled, (state, { payload }) => {
       state.room = payload;
+    });
+    builder.addCase(getAllRooms.fulfilled, (state, { payload }) => {
+      state.userRooms = payload;
     });
     builder.addCase(createStory.fulfilled, (state, { payload }) => {
       if (payload && state.room) {

@@ -1,12 +1,12 @@
 import axiosInstance from 'axios';
-import { AppLocalStorage } from './lib/utils';
+import { AppSessionStorage } from './lib/utils';
 
 const axios = axiosInstance.create({
   baseURL: 'http://localhost:3000/api/v1',
 });
 
 axios.interceptors.request.use((config) => {
-  const token = AppLocalStorage.getUser()?.token;
+  const token = AppSessionStorage.getUser()?.token;
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }

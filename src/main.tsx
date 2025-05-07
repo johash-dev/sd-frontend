@@ -4,7 +4,7 @@ import './index.css';
 import App from './App.tsx';
 import { createBrowserRouter, RouterProvider } from 'react-router';
 import { Login } from './pages/Login.tsx';
-import Home from './pages/Home.tsx';
+import Room from './pages/Room.tsx';
 import { Dashboard } from './pages/Dashboard.tsx';
 import { store } from './app/store';
 import { Provider } from 'react-redux';
@@ -20,7 +20,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'room/:roomCode',
-        element: <Home />,
+        element: <Room />,
       },
       {
         path: 'dashboard',

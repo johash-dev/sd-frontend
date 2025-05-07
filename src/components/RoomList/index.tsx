@@ -6,13 +6,17 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { RoomCard, type Room } from './RoomCard';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/app/store';
 
 interface RoomListProps {
   rooms: Room[];
   onContinue: (roomId: string) => void;
 }
 
-export function RoomList({ rooms, onContinue }: RoomListProps) {
+export function RoomList({ onContinue }: RoomListProps) {
+  const { userRooms } = useSelector((state: RootState) => state.room);
+
   return (
     <Card>
       <CardHeader>
@@ -20,9 +24,9 @@ export function RoomList({ rooms, onContinue }: RoomListProps) {
         <CardDescription>Rooms you've recently participated in</CardDescription>
       </CardHeader>
       <CardContent>
-        {rooms.length > 0 ? (
+        {userRooms.length > 0 ? (
           <div className="space-y-4">
-            {rooms.map((room) => (
+            {userRooms.map((room) => (
               <RoomCard key={room.id} room={room} onContinue={onContinue} />
             ))}
           </div>

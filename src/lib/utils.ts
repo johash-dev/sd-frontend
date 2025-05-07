@@ -18,3 +18,16 @@ export const AppLocalStorage = {
     localStorage.setItem('user', userJson);
   },
 };
+
+export const AppSessionStorage = {
+  getUser: (): AuthUser | undefined => {
+    const userJson = sessionStorage.getItem('user');
+    if (userJson) {
+      return JSON.parse(userJson);
+    }
+  },
+  setUser: (user: AuthUser) => {
+    const userJson = JSON.stringify(user);
+    sessionStorage.setItem('user', userJson);
+  },
+};

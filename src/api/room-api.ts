@@ -19,4 +19,7 @@ export const RoomAPI = {
   ): Promise<AxiosResponse<RoomResponseDto>> => {
     return await axios.get<RoomResponseDto>(`/room/${roomCode}`);
   },
+  getAllRooms: async (): Promise<AxiosResponse<RoomResponseDto[]>> => {
+    return await axios.get<RoomResponseDto[]>(`/room/getAll`);
+  },
 };

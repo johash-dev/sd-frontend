@@ -5,9 +5,11 @@ import { useSelector } from 'react-redux';
 import { Button } from '../ui/button';
 import { updateRoomStory } from '@/features/roomSlice';
 import { UserStoryStatus } from '@/models/Room';
+import { useNavigate } from 'react-router';
 
 const VotePanelHeader: FC = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { user } = useSelector((state: RootState) => state.auth);
   const { selectedStory } = useSelector((state: RootState) => {
     const story = state.room.roomDetail?.stories.find((s) => s.selected);
@@ -28,6 +30,10 @@ const VotePanelHeader: FC = () => {
     }
   };
 
+  const onDashboardClickHandler = () => {
+    navigate('/dashboard');
+  };
+
   return (
     <div className="bg-[#1C5CA7] w-full h-20 sticky flex justify-between items-center px-5">
       <div className="text-white">
@@ -36,12 +42,15 @@ const VotePanelHeader: FC = () => {
           Estimation {selectedStory?.status}
         </p>
       </div>
-      <div className="flex gap-2 items-center">
+      <div className="flex gap-4 items-center">
         {roomDetail?.owner.id === user?.id ? (
           <Button onClick={startEstimationsClickHandler}>
             Start Estimations
           </Button>
         ) : null}
+        <Button variant="default" onClick={onDashboardClickHandler}>
+          Dashboard
+        </Button>
         <User />
         <span className="text-white font-medium">{user?.firstName}</span>
       </div>
