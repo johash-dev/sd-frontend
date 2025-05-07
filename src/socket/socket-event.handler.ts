@@ -1,6 +1,11 @@
 import socket from './index';
+import { EstimationReadyDto } from './models/estimation.models';
 import { JoinRoomDto } from './models/room.models';
-import { CreateStoryDto } from './models/story.models';
+import {
+  CreateStoryDto,
+  SelectStoryDto,
+  StartEstimationDto,
+} from './models/story.models';
 import { SOCKET_EVENTS } from './socket-events';
 
 export const SocketEventHandler = {
@@ -12,5 +17,14 @@ export const SocketEventHandler = {
   },
   handleCreateStory: (createStoryDto: CreateStoryDto) => {
     socket.emit(SOCKET_EVENTS.JOIN_ROOM, createStoryDto);
+  },
+  handleSelectStory: (selectStoryDto: SelectStoryDto) => {
+    socket.emit(SOCKET_EVENTS.SELECT_STORY, selectStoryDto);
+  },
+  handleStartEstimation: (startEstimationDto: StartEstimationDto) => {
+    socket.emit(SOCKET_EVENTS.START_ESTIMATION, startEstimationDto);
+  },
+  handleEstimationReady: (estimationReadyDto: EstimationReadyDto) => {
+    socket.emit(SOCKET_EVENTS.READY, estimationReadyDto);
   },
 };

@@ -3,28 +3,27 @@ import { User } from '../User';
 import { RootState, useAppDispatch } from '@/app/store';
 import { useSelector } from 'react-redux';
 import { Button } from '../ui/button';
-import { updateRoomStory } from '@/features/roomSlice';
-import { UserStoryStatus } from '@/models/Room';
+import { startStoryEstimation } from '@/features/roomSlice';
 import { useNavigate } from 'react-router';
+import { UserStoryStatus } from '@/models/Story';
 
 const VotePanelHeader: FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state: RootState) => state.auth);
   const { selectedStory } = useSelector((state: RootState) => {
-    const story = state.room.roomDetail?.stories.find((s) => s.selected);
+    const story = state.room.room?.stories.find((s) => s.selected);
     return { selectedStory: story };
   });
 
-  const { roomDetail } = useSelector((state: RootState) => state.room);
+  const { room } = useSelector((state: RootState) => state.room);
 
   const startEstimationsClickHandler = () => {
-    if (selectedStory && roomDetail) {
+    if (selectedStory && room) {
       dispatch(
-        updateRoomStory({
-          id: selectedStory.id,
-          roomId: roomDetail?.id,
-          status: UserStoryStatus.IN_ESTIMATION,
+        startStoryEstimation({
+          roomId: room.id,
+          storyId: selectedStory.id,
         })
       );
     }
@@ -32,6 +31,13 @@ const VotePanelHeader: FC = () => {
 
   const onDashboardClickHandler = () => {
     navigate('/dashboard');
+  };
+
+  const estimationStatus: Record<UserStoryStatus, string> = {
+    ACTIVE: 'In Estimation',
+    COMPLETED: 'Estimation Complete',
+    PENDING: 'Start Estimation',
+    REVEALED: 'Estimation Complete',
   };
 
   return (
@@ -43,9 +49,9 @@ const VotePanelHeader: FC = () => {
         </p>
       </div>
       <div className="flex gap-4 items-center">
-        {roomDetail?.owner.id === user?.id ? (
+        {room?.owner.id === user?.id ? (
           <Button onClick={startEstimationsClickHandler}>
-            Start Estimations
+            {selectedStory && estimationStatus[selectedStory?.status]}
           </Button>
         ) : null}
         <Button variant="default" onClick={onDashboardClickHandler}>

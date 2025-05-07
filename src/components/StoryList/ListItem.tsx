@@ -1,26 +1,20 @@
 import { FC } from 'react';
 import { Button } from '../ui/button';
 import { RiMore2Fill } from '@remixicon/react';
-import { useAppDispatch } from '@/app/store';
-import { updateRoomStory } from '@/features/roomSlice';
 import { StorySummaryDto } from '@/models/Story';
 
 type ListItemProps = {
   detail: StorySummaryDto;
   roomId: string;
+  roomCode: string;
+  onSelect?: (storyId: string, roomId: string) => void;
 };
 
-const ListItem: FC<ListItemProps> = ({ detail, roomId }) => {
-  const dispatch = useAppDispatch();
-
+const ListItem: FC<ListItemProps> = ({ detail, roomCode, onSelect }) => {
   const onStoryItemClickHandler = () => {
-    dispatch(
-      updateRoomStory({
-        id: detail.id,
-        roomId: roomId,
-        selected: true,
-      })
-    );
+    if (onSelect) {
+      onSelect(detail.id, roomCode);
+    }
   };
 
   return (

@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RoomAPI } from '@/api/room-api';
 import {
   RoomDetail,
@@ -10,7 +10,17 @@ import {
 import { StoryAPI } from '@/api/story-api';
 import { SocketEventHandler } from '@/socket/socket-event.handler';
 import { JoinRoomDto } from '@/socket/models/room.models';
-import { CreateStoryDto } from '@/models/Story';
+import {
+  CreateStoryDto,
+  SelectStoryDto,
+  StartStoryEstimationDto,
+  StorySummaryDto,
+  UserStoryStatus,
+} from '@/models/Story';
+import {
+  SelectStoryDto as SelectStorySocketDto,
+  StartedEstimationDto,
+} from '@/socket/models/story.models';
 
 export interface RoomState {
   room: RoomResponseDto | null;
@@ -65,6 +75,24 @@ export const createStory = createAsyncThunk(
   }
 );
 
+export const selectStory = createAsyncThunk(
+  'room/selectStory',
+  async (selectStoryDto: SelectStoryDto) => {
+    const response = await StoryAPI.selectStory(selectStoryDto);
+    return response.data;
+  }
+);
+
+export const startStoryEstimation = createAsyncThunk(
+  'room/startStoryEstimation',
+  async (startStoryEstimationDto: StartStoryEstimationDto) => {
+    const response = await StoryAPI.startStoryEstimation(
+      startStoryEstimationDto
+    );
+    return response.data;
+  }
+);
+
 export const updateRoomStory = createAsyncThunk(
   'room/updateStory',
   async (storyDto: UpdateStoryDto) => {
@@ -78,7 +106,43 @@ export const updateRoomStory = createAsyncThunk(
 export const roomSlice = createSlice({
   name: 'room',
   initialState,
-  reducers: {},
+  reducers: {
+    selectStoryInRoom: (state, action: PayloadAction<SelectStorySocketDto>) => {
+      if (state.room?.roomCode === action.payload.roomCode) {
+        state.room.stories = state.room.stories.map((story) => {
+          if (story.id === action.payload.storyId) {
+            return {
+              ...story,
+              selected: true,
+            };
+          }
+          return {
+            ...story,
+            selected: false,
+          };
+        });
+      }
+    },
+    startEstimationForSelectedStory: (
+      state,
+      action: PayloadAction<StartedEstimationDto>
+    ) => {
+      if (state.room) {
+        state.room.stories = state.room?.stories.map((story) => {
+          if (story.id === action.payload.storyId) {
+            return {
+              ...story,
+              status: UserStoryStatus.ACTIVE,
+            };
+          }
+          return story;
+        });
+      }
+    },
+    setRoom: (state, action: PayloadAction<RoomResponseDto>) => {
+      state.room = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(createRoom.fulfilled, (state, { payload }) => {
       state.room = payload;
@@ -110,9 +174,32 @@ export const roomSlice = createSlice({
         });
       }
     });
+    builder.addCase(selectStory.fulfilled, (state, { payload }) => {
+      if (payload && state.room) {
+        SocketEventHandler.handleSelectStory({
+          roomCode: payload.roomCode,
+          storyId: getSelectedStoryId(payload.stories),
+        });
+      }
+    });
+    builder.addCase(startStoryEstimation.fulfilled, (state, { payload }) => {
+      if (payload && state.room) {
+        SocketEventHandler.handleStartEstimation({
+          roomCode: payload.roomCode,
+          storyId: getSelectedStoryId(payload.stories),
+        });
+      }
+    });
   },
 });
 
-// export const {} = roomSlice.actions;
+const getSelectedStoryId = (stories: StorySummaryDto[]) => {
+  console.log('stories', stories);
+
+  return stories.filter((story) => story.selected)[0].id;
+};
+
+export const { selectStoryInRoom, startEstimationForSelectedStory, setRoom } =
+  roomSlice.actions;
 
 export default roomSlice.reducer;
