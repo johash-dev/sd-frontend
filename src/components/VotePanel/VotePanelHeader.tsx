@@ -51,7 +51,7 @@ const VotePanelHeader: FC = () => {
     ACTIVE: 'Reveal',
     COMPLETED: 'Estimation Complete',
     PENDING: 'Start Estimation',
-    REVEALED: 'Estimation Complete',
+    REVEALED: 'Re-Estimate',
   };
 
   return (
@@ -64,7 +64,14 @@ const VotePanelHeader: FC = () => {
       </div>
       <div className="flex gap-4 items-center">
         {room?.owner.id === user?.id ? (
-          <Button onClick={startEstimationsClickHandler}>
+          <Button
+            onClick={startEstimationsClickHandler}
+            variant={
+              selectedStory?.status === UserStoryStatus.REVEALED
+                ? 'destructive'
+                : null
+            }
+          >
             {selectedStory && estimationStatus[selectedStory?.status]}
           </Button>
         ) : null}
