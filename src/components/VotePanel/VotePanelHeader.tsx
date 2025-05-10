@@ -3,7 +3,7 @@ import { User } from '../User';
 import { RootState, useAppDispatch } from '@/app/store';
 import { useSelector } from 'react-redux';
 import { Button } from '../ui/button';
-import { startStoryEstimation } from '@/features/roomSlice';
+import { revealEstimate, startStoryEstimation } from '@/features/roomSlice';
 import { useNavigate } from 'react-router';
 import { UserStoryStatus } from '@/models/Story';
 
@@ -20,12 +20,26 @@ const VotePanelHeader: FC = () => {
 
   const startEstimationsClickHandler = () => {
     if (selectedStory && room) {
-      dispatch(
-        startStoryEstimation({
-          roomId: room.id,
-          storyId: selectedStory.id,
-        })
-      );
+      switch (selectedStory.status) {
+        case UserStoryStatus.PENDING:
+          {
+            dispatch(
+              startStoryEstimation({
+                roomId: room.id,
+                storyId: selectedStory.id,
+              })
+            );
+          }
+          break;
+        case UserStoryStatus.ACTIVE: {
+          dispatch(
+            revealEstimate({
+              roomId: room.id,
+              storyId: selectedStory.id,
+            })
+          );
+        }
+      }
     }
   };
 
@@ -34,7 +48,7 @@ const VotePanelHeader: FC = () => {
   };
 
   const estimationStatus: Record<UserStoryStatus, string> = {
-    ACTIVE: 'In Estimation',
+    ACTIVE: 'Reveal',
     COMPLETED: 'Estimation Complete',
     PENDING: 'Start Estimation',
     REVEALED: 'Estimation Complete',

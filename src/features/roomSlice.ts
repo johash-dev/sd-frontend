@@ -12,6 +12,7 @@ import { SocketEventHandler } from '@/socket/socket-event.handler';
 import { JoinRoomDto } from '@/socket/models/room.models';
 import {
   CreateStoryDto,
+  RevealStoryEstimateDto,
   SelectStoryDto,
   StartStoryEstimationDto,
   StorySummaryDto,
@@ -93,6 +94,14 @@ export const startStoryEstimation = createAsyncThunk(
   }
 );
 
+export const revealEstimate = createAsyncThunk(
+  'room/revealEstimations',
+  async (revealStoryEstimateDto: RevealStoryEstimateDto) => {
+    const response = await StoryAPI.revealStoryEstimate(revealStoryEstimateDto);
+    return response.data;
+  }
+);
+
 export const updateRoomStory = createAsyncThunk(
   'room/updateStory',
   async (storyDto: UpdateStoryDto) => {
@@ -139,8 +148,8 @@ export const roomSlice = createSlice({
         });
       }
     },
-    setRoom: (state, action: PayloadAction<RoomResponseDto>) => {
-      state.room = action.payload;
+    setRoom: (state, { payload }: PayloadAction<RoomResponseDto>) => {
+      state.room = payload;
     },
   },
   extraReducers: (builder) => {
@@ -185,6 +194,14 @@ export const roomSlice = createSlice({
     builder.addCase(startStoryEstimation.fulfilled, (state, { payload }) => {
       if (payload && state.room) {
         SocketEventHandler.handleStartEstimation({
+          roomCode: payload.roomCode,
+          storyId: getSelectedStoryId(payload.stories),
+        });
+      }
+    });
+    builder.addCase(revealEstimate.fulfilled, (state, { payload }) => {
+      if (payload && state.room) {
+        SocketEventHandler.handleRevealEstimate({
           roomCode: payload.roomCode,
           storyId: getSelectedStoryId(payload.stories),
         });

@@ -32,6 +32,11 @@ export interface StartStoryEstimationDto {
   storyId: string;
 }
 
+export interface RevealStoryEstimateDto {
+  roomId: string;
+  storyId: string;
+}
+
 export enum UserStoryStatus {
   PENDING = 'PENDING',
   ACTIVE = 'ACTIVE',

@@ -20,9 +20,42 @@ const UserGridItem: FC<UserGridItemProps> = ({
   selectedStory,
   user,
 }) => {
-  const { values, total } = useSelector((state: RootState) => state.estimation);
-  const { room } = useSelector((state: RootState) => state.room);
   const dispatch = useAppDispatch();
+
+  const {
+    values,
+    total,
+    room,
+    isCurrentUser,
+    isStoryActive,
+    hasSubmitted,
+    isReady,
+  } = useSelector((state: RootState) => {
+    const { estimation, room } = state;
+    const selectedEstimation = selectedStory?.estimations?.find(
+      (e) => e.user.id === participant.id
+    );
+
+    const isRoomOwner = user?.id === room.room?.owner.id;
+    const isCurrentUser = participant.id === user?.id;
+    const isStoryActive = selectedStory?.status === UserStoryStatus.ACTIVE;
+    const isStoryEstimateRevealed =
+      selectedStory?.status === UserStoryStatus.REVEALED;
+    const hasSubmitted = !!selectedEstimation;
+    const isReady = selectedEstimation?.ready ?? false;
+
+    return {
+      values: estimation.values,
+      total: estimation.total,
+      room: room.room,
+      isRoomOwner,
+      isCurrentUser,
+      isStoryActive,
+      isStoryEstimateRevealed,
+      hasSubmitted,
+      isReady,
+    };
+  });
 
   const onPokerCardClickHandler = (index: number) => {
     dispatch(setSelectedIndex(index));
@@ -48,56 +81,34 @@ const UserGridItem: FC<UserGridItemProps> = ({
         <p>{participant.firstName}</p>
       </div>
       <div className="grid grid-cols-3 gap-1.5">
-        {values.map((value, index) => {
-          return (
-            <>
-              <PokerCard
-                back={
-                  selectedStory &&
-                  selectedStory.status === UserStoryStatus.ACTIVE &&
-                  participant.id !== user?.id
-                }
-                value={value}
-                key={index}
-                index={index}
-                click={onPokerCardClickHandler}
-              />
-            </>
-          );
-        })}
+        {values.map((value, index) => (
+          <PokerCard
+            back={isStoryActive && !isCurrentUser}
+            value={value}
+            key={index}
+            index={index}
+            click={onPokerCardClickHandler}
+          />
+        ))}
       </div>
       <div className="flex flex-col items-center">
-        {selectedStory &&
-        selectedStory.status === UserStoryStatus.ACTIVE &&
-        participant.id === user?.id &&
-        total &&
-        !selectedStory.estimations?.filter(
-          (e) => e.user.id === participant.id
-        )[0].ready ? (
+        {isStoryActive && isCurrentUser && total && !isReady && (
           <>
             <span>Mean</span>
             <p className="text-4xl">{total}</p>
             <Button onClick={onReadyClickHandler}>Ready</Button>
           </>
-        ) : null}
+        )}
 
-        {selectedStory &&
-        selectedStory.estimations?.filter((e) => e.user.id === participant.id)
-          .length &&
-        selectedStory.estimations?.filter(
-          (e) => e.user.id === participant.id
-        )[0].ready ? (
+        {hasSubmitted && isReady && (
           <>
             <span>Ready</span>
-            {selectedStory.estimations.filter(
-              (e) => e.user.id === participant.id
-            )[0].user.id === user?.id ? (
-              <>
-                <Button variant="secondary">Not Ready</Button>
-              </>
-            ) : null}
           </>
-        ) : null}
+        )}
+
+        {hasSubmitted && isReady && (
+          <>{isCurrentUser && <Button variant="secondary">Not Ready</Button>}</>
+        )}
       </div>
       <Button variant="ghost" className="absolute right-0 top-0">
         <RiMore2Fill size={16} color="black" />

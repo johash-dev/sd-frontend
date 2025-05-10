@@ -3,6 +3,7 @@ import { EstimationReadyDto } from './models/estimation.models';
 import { JoinRoomDto } from './models/room.models';
 import {
   CreateStoryDto,
+  RevealStoryEstimateDto,
   SelectStoryDto,
   StartEstimationDto,
 } from './models/story.models';
@@ -26,5 +27,8 @@ export const SocketEventHandler = {
   },
   handleEstimationReady: (estimationReadyDto: EstimationReadyDto) => {
     socket.emit(SOCKET_EVENTS.READY, estimationReadyDto);
+  },
+  handleRevealEstimate: (revealEstimateDto: RevealStoryEstimateDto) => {
+    socket.emit(SOCKET_EVENTS.REVEAL_VOTES, revealEstimateDto);
   },
 };

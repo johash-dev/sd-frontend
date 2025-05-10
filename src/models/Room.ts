@@ -1,5 +1,5 @@
 import { User } from './Auth';
-import { StorySummaryDto } from './Story';
+import { StorySummaryDto, UserStoryStatus } from './Story';
 import { UserResponseDto } from './User';
 
 export interface CreateRoomDto {
@@ -90,12 +90,6 @@ export interface StoryDetail {
   updatedAt: Date;
   selected: boolean;
   estimations: EstimationDto[];
-}
-
-export enum UserStoryStatus {
-  PENDING = 'pending',
-  IN_ESTIMATION = 'in_estimation',
-  ESTIMATED = 'estimated',
 }
 
 export interface UpdateStoryDto {

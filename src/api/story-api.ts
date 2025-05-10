@@ -2,6 +2,7 @@ import axios from '@/axios';
 import { RoomResponseDto, StoryDetail, UpdateStoryDto } from '@/models/Room';
 import {
   CreateStoryDto,
+  RevealStoryEstimateDto,
   SelectStoryDto,
   StartStoryEstimationDto,
   StorySummaryDto,
@@ -25,6 +26,14 @@ export const StoryAPI = {
     return await axios.patch<RoomResponseDto>(
       '/story/startEstimation',
       startStoryEstimationDto
+    );
+  },
+  revealStoryEstimate: async (
+    revealStoryEstimateDto: RevealStoryEstimateDto
+  ): Promise<AxiosResponse<RoomResponseDto>> => {
+    return await axios.patch<RoomResponseDto>(
+      '/story/revealEstimate',
+      revealStoryEstimateDto
     );
   },
   updateStory: async (

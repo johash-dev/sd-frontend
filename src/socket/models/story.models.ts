@@ -18,3 +18,13 @@ export interface StartEstimationDto {
 export interface StartedEstimationDto {
   storyId: string;
 }
+
+export interface RevealStoryEstimateDto {
+  roomCode: string;
+  storyId: string;
+}
+
+export interface RevealVotesDto {
+  roomCode: string;
+  storyId: string;
+}
