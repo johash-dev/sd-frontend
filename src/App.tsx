@@ -29,7 +29,7 @@ function App() {
   }, [user]);
 
   return (
-    <div className="h-screen">
+    <div className="h-screen pt-2 bg-[#F4F4F4]">
       <Outlet />
     </div>
   );

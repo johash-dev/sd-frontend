@@ -19,7 +19,7 @@ const ListItem: FC<ListItemProps> = ({ detail, roomCode, onSelect }) => {
 
   return (
     <div
-      className="bg-white rounded-sm py-1 flex justify-between pe-4"
+      className="bg-white rounded-2xl py-1.5 flex justify-between pe-4"
       onClick={onStoryItemClickHandler}
     >
       <div className="flex items-center min-w-0">

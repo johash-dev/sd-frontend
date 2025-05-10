@@ -55,7 +55,7 @@ const VotePanelHeader: FC = () => {
   };
 
   return (
-    <div className="bg-[#1C5CA7] w-full h-20 sticky flex justify-between items-center px-5">
+    <div className="bg-[#1C5CA7] w-full h-20 sticky flex justify-between items-center px-5 rounded-2xl">
       <div className="text-white">
         <h1 className="text-2xl">{selectedStory?.title}</h1>
         <p className="text-sm text-[#E6E6E6]">

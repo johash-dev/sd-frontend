@@ -26,11 +26,11 @@ const StoryList: FC = () => {
   };
 
   return (
-    <div className="flex-grow bg-[#F4F4F4]">
+    <div className="flex-grow ">
       <div className="flex flex-col h-full">
         <ListHeader />
         <div className="flex-grow mt-2.5 px-2">
-          <div className="flex flex-col gap-1.5">
+          <div className="flex flex-col gap-2">
             {room?.stories.map((story) => {
               return (
                 <ListItem

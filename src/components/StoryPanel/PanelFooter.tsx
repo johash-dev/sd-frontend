@@ -22,7 +22,7 @@ const PanelFooter: FC = () => {
   };
 
   return (
-    <div className="bg-white flex items-center px-5 py-7 gap-4">
+    <div className="bg-white flex items-center px-5 py-7 gap-4 rounded-2xl">
       <Input
         type="text"
         placeholder="Story Title"

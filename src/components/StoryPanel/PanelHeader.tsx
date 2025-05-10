@@ -8,7 +8,7 @@ const PanelHeader: FC = () => {
   const { room } = useSelector((state: RootState) => state.room);
 
   return (
-    <div className="bg-primary w-full h-20 sticky flex justify-between items-center px-5">
+    <div className="bg-primary h-20 sticky flex justify-between items-center px-5  rounded-2xl">
       <div className="text-white">
         <h1 className="font-bold text-xl">{room?.title}</h1>
         {/* <p className="text-sm">{room && room?.owner.firstName}</p> */}

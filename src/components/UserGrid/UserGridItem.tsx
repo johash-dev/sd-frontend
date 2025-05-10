@@ -75,23 +75,25 @@ const UserGridItem: FC<UserGridItemProps> = ({
   };
 
   return (
-    <div className="flex items-center justify-between bg-white px-5 py-5 relative">
-      <div className="flex flex-col items-center gap-2.5">
+    <div className="flex items-center justify-between bg-white px-5 py-5 relative rounded-2xl">
+      <div className="flex-1 flex-col items-center gap-2.5">
         <div className="w-28 h-28 bg-gray-600 rounded-full"></div>
         <p>{participant.firstName}</p>
       </div>
-      <div className="grid grid-cols-3 gap-1.5">
-        {values.map((value, index) => (
-          <PokerCard
-            back={isStoryActive && !isCurrentUser}
-            value={value}
-            key={index}
-            index={index}
-            click={onPokerCardClickHandler}
-          />
-        ))}
+      <div className="flex-2">
+        <div className="grid grid-cols-3 gap-1.5">
+          {values.map((value, index) => (
+            <PokerCard
+              back={isStoryActive && !isCurrentUser}
+              value={value}
+              key={index}
+              index={index}
+              click={onPokerCardClickHandler}
+            />
+          ))}
+        </div>
       </div>
-      <div className="flex flex-col items-center">
+      <div className="flex-1 flex-col items-center">
         {isStoryActive && isCurrentUser && total && !isReady && (
           <>
             <span>Mean</span>

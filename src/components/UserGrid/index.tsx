@@ -54,7 +54,7 @@ const UserGrid: FC = () => {
 
   return (
     <div className="flex-grow">
-      <div className="grid grid-cols-2 gap-4 mt-3 mx-3">
+      <div className="grid grid-cols-2 gap-4 mt-3">
         {storyRevealed
           ? selectedStory?.estimations?.map((estimate) => {
               return (
