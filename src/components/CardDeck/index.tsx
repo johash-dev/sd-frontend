@@ -23,15 +23,13 @@ const CardDeck: FC = () => {
     <div className="flex justify-around">
       {estimationValues.map((estimationValue, index) => {
         return (
-          <>
-            <PokerCard
-              button={selectedStory?.status === UserStoryStatus.ACTIVE}
-              value={estimationValue}
-              change={onPokerValueChange}
-              index={index}
-              key={index}
-            />
-          </>
+          <PokerCard
+            button={selectedStory?.status === UserStoryStatus.ACTIVE}
+            value={estimationValue}
+            change={onPokerValueChange}
+            index={index}
+            key={index}
+          />
         );
       })}
     </div>
