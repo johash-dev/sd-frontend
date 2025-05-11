@@ -6,11 +6,11 @@ import { JoinRoomDto } from '@/socket/models/room.models';
 import { SOCKET_EVENTS } from '@/socket/socket-events';
 import { FC, useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { CreateRoomForm } from '@/components/CreateRoomForm';
 import { JoinRoomForm } from '@/components/JoinRoomForm';
 import { User } from '@/components/User';
 import { useSelector } from 'react-redux';
+import { Button } from '@/components/ui/button';
+import { RiAddCircleLine } from '@remixicon/react';
 
 const Dashboard: FC = () => {
   const dispatch = useAppDispatch();
@@ -54,19 +54,27 @@ const Dashboard: FC = () => {
   };
 
   return (
-    <div className="px-2">
-      <div className="w-full h-20 bg-primary flex items-center justify-between px-5 rounded-2xl">
+    <div>
+      <div className="w-full h-16 bg-[#010409] flex items-center justify-between px-40 border-b border-b-[#3D444D]">
         <span className="text-white text-2xl font-semibold">Scrum Deck</span>
         <User firstName={user?.firstName ?? ''} />
       </div>
-      <div className="container mx-auto mt-8">
-        <header className="mb-8">
-          <h1 className="text-3xl font-semibold tracking-tight">
-            Welcome {user?.firstName}!
-          </h1>
-          <p className="text-muted-foreground mt-2">
-            Estimate user stories with your team
-          </p>
+      <div className="mx-40 mt-8 bg-[#0D1117]">
+        <header className="mb-10 flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-semibold tracking-tight">
+              Welcome {user?.firstName}!
+            </h1>
+            <p className="text-gray-400">
+              Estimate user stories with your team
+            </p>
+          </div>
+          <Button>
+            <span>
+              <RiAddCircleLine />
+            </span>
+            Create Room
+          </Button>
         </header>
 
         <div className="grid gap-8 md:grid-cols-3">
@@ -75,7 +83,9 @@ const Dashboard: FC = () => {
           </div>
 
           <div>
-            <Tabs defaultValue="create" className="w-full">
+            <JoinRoomForm onSubmit={handleJoinRoom} />
+
+            {/* <Tabs defaultValue="create" className="w-full">
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="create">Create</TabsTrigger>
                 <TabsTrigger value="join">Join</TabsTrigger>
@@ -86,7 +96,7 @@ const Dashboard: FC = () => {
               <TabsContent value="join">
                 <JoinRoomForm onSubmit={handleJoinRoom} />
               </TabsContent>
-            </Tabs>
+            </Tabs> */}
           </div>
         </div>
       </div>

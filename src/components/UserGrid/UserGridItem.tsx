@@ -75,10 +75,14 @@ const UserGridItem: FC<UserGridItemProps> = ({
   };
 
   return (
-    <div className="flex items-center justify-between bg-white px-5 py-5 relative rounded-2xl">
+    <div className="flex items-center justify-between bg-[#151B23] px-5 py-5 relative rounded-2xl">
       <div className="flex-1 flex-col items-center gap-2.5 mr-3">
         <div className="flex items-center justify-center">
-          <div className="w-28 h-28 bg-gray-600 rounded-full"></div>
+          <div className="w-28 h-28 bg-gray-600 rounded-full flex items-center justify-center">
+            <span className="text-3xl">
+              {participant.firstName.charAt(0).toUpperCase()}
+            </span>
+          </div>
         </div>
         <p className="text-center">{participant.firstName}</p>
       </div>
@@ -95,7 +99,7 @@ const UserGridItem: FC<UserGridItemProps> = ({
           ))}
         </div>
       </div>
-      <div className="flex-1 flex-col items-center text-center">
+      <div className="flex-1 flex-col items-center text-center text-white">
         {isStoryActive && isCurrentUser && total && !isReady && (
           <>
             <span>Mean</span>

@@ -18,7 +18,7 @@ const PokerCard: FC<PokerCardProps> = ({
   index,
 }) => {
   let pokerCardClassess =
-    'h-28 w-20 bg-[#F0F0F0] drop-shadow-sm flex items-center justify-center relative rounded-md mb-[-30px] transition-all duration-300';
+    'h-28 w-20 bg-[#F0F0F0] text-black drop-shadow-sm flex items-center justify-center relative rounded-md mb-[-30px] transition-all duration-300';
 
   if (button) {
     pokerCardClassess += ' cursor-pointer hover:-translate-y-8';
@@ -36,10 +36,10 @@ const PokerCard: FC<PokerCardProps> = ({
 
   return (
     <div className={pokerCardClassess} onClick={onClickHandler}>
-      {back ? (
+      {back || value === null ? (
         <>
-          <div className="p-1.5 h-full w-">
-            <div className="border border-[#b4b3b3] h-full w-full flex items-center justify-center text-center font-semibold text-sm rounded-md">
+          <div className="p-1.5 h-full bg-[#3178C6] rounded-md">
+            <div className="border border-gray-200 text-gray-200 h-full w-full flex items-center justify-center text-center font-semibold text-sm rounded-md">
               <span>Story Points</span>
             </div>
           </div>

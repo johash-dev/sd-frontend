@@ -23,7 +23,7 @@ const VotePanel: FC = () => {
   }, []);
 
   return (
-    <div className="w-full flex flex-col overflow-hidden me-2">
+    <div className="bg-[#010409] w-full flex flex-col overflow-hidden">
       <VotePanelHeader />
       <UserGrid />
       <VotePanelFooter />

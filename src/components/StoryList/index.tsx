@@ -26,7 +26,7 @@ const StoryList: FC = () => {
   };
 
   return (
-    <div className="flex-grow ">
+    <div className="flex-grow px-3.5">
       <div className="flex flex-col h-full">
         <ListHeader />
         <div className="flex-grow mt-2.5 px-2">

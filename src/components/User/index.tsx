@@ -11,7 +11,7 @@ const User: FC<UserProps> = ({ firstName }) => {
 
   return (
     <div
-      className={`h-12 w-12 rounded-full flex justify-center items-center text-center text-white font-semibold`}
+      className={`h-10 w-10 rounded-full flex justify-center items-center text-center text-white font-semibold`}
       style={{ backgroundColor: bgColor }}
       title={firstName}
       aria-label={`User: ${firstName}`}

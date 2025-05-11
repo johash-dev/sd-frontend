@@ -3,10 +3,8 @@ import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 
@@ -26,32 +24,34 @@ export function JoinRoomForm({ onSubmit }: JoinRoomFormProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Join a Room</CardTitle>
-        <CardDescription>Enter a room code to join</CardDescription>
+        <span className="text-xl">Join Room</span>
+        <p className="text-md text-gray-400">
+          Please join a room with the room code if you were given any
+        </p>
       </CardHeader>
-      <form onSubmit={handleSubmit}>
-        <CardContent>
+      <CardContent>
+        <form onSubmit={handleSubmit}>
           <div className="space-y-4">
-            <div className="space-y-2">
+            <div className="space-y-4">
               <label htmlFor="room-code" className="text-sm font-medium">
                 Room Code
               </label>
               <Input
                 id="room-code"
-                placeholder="Enter 6-digit code"
+                placeholder="Enter room code"
                 value={roomCode}
                 onChange={(e) => setRoomCode(e.target.value)}
                 required
               />
             </div>
           </div>
-        </CardContent>
-        <CardFooter>
-          <Button type="submit" className="w-full">
-            Join Room
-          </Button>
-        </CardFooter>
-      </form>
+        </form>
+      </CardContent>
+      <CardFooter>
+        <Button type="submit" className="w-full">
+          Join Room
+        </Button>
+      </CardFooter>
     </Card>
   );
 }

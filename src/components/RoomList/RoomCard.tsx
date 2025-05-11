@@ -16,10 +16,10 @@ interface RoomCardProps {
 
 export function RoomCard({ room, onContinue }: RoomCardProps) {
   return (
-    <div className="flex items-center justify-between p-4 border rounded-lg">
+    <div className="flex items-center justify-between p-4 border border-[#3D444D] rounded-lg">
       <div className="space-y-1">
         <h3 className="font-medium">{room.title}</h3>
-        <div className="flex items-center gap-4 text-sm text-muted-foreground">
+        <div className="flex items-center gap-4 text-sm text-gray-400">
           <div className="flex items-center gap-1">
             <Users className="h-4 w-4" />
             <span>{room.participants.length} participants</span>
@@ -31,7 +31,7 @@ export function RoomCard({ room, onContinue }: RoomCardProps) {
         </div>
       </div>
       <Button
-        variant="outline"
+        variant="secondary"
         size="sm"
         onClick={() => onContinue(room.roomCode)}
       >
