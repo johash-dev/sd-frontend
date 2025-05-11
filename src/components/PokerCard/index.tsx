@@ -1,4 +1,3 @@
-import { RiPokerClubsFill } from '@remixicon/react';
 import { FC } from 'react';
 
 type PokerCardProps = {
@@ -39,9 +38,14 @@ const PokerCard: FC<PokerCardProps> = ({
     <div className={pokerCardClassess} onClick={onClickHandler}>
       {back ? (
         <>
-          <span>
+          <div className="p-1.5 h-full w-">
+            <div className="border border-[#b4b3b3] h-full w-full flex items-center justify-center text-center font-semibold text-sm rounded-md">
+              <span>Story Points</span>
+            </div>
+          </div>
+          {/* <span>
             <RiPokerClubsFill size={18} />
-          </span>
+          </span> */}
         </>
       ) : (
         <>

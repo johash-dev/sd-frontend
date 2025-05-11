@@ -6,6 +6,7 @@ import { Button } from '../ui/button';
 import { revealEstimate, startStoryEstimation } from '@/features/roomSlice';
 import { useNavigate } from 'react-router';
 import { UserStoryStatus } from '@/models/Story';
+import { RiDashboardFill } from '@remixicon/react';
 
 const VotePanelHeader: FC = () => {
   const dispatch = useAppDispatch();
@@ -69,14 +70,14 @@ const VotePanelHeader: FC = () => {
             variant={
               selectedStory?.status === UserStoryStatus.REVEALED
                 ? 'destructive'
-                : null
+                : 'default' //add primary
             }
           >
             {selectedStory && estimationStatus[selectedStory?.status]}
           </Button>
         ) : null}
-        <Button variant="default" onClick={onDashboardClickHandler}>
-          Dashboard
+        <Button variant="ghost" onClick={onDashboardClickHandler}>
+          <RiDashboardFill size={16} color="white" />
         </Button>
         <User />
         <span className="text-white font-medium">{user?.firstName}</span>

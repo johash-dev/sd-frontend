@@ -23,7 +23,7 @@ const RevealGridItem: FC<RevealGridItemProps> = ({ participant, estimate }) => {
           <PokerCard value={estimate?.pessimistic ?? 0} index={0} />
         </div>
       </div>
-      <div className="flex-1 flex flex-col items-center justify-center">
+      <div className="flex-1 flex flex-col items-center justify-center text-center">
         <span className="font-bold text-4xl">
           {getFibonacciEstimate(
             estimate?.optimistic ?? 0,
