@@ -8,6 +8,7 @@ import Room from './pages/Room.tsx';
 import { Dashboard } from './pages/Dashboard.tsx';
 import { store } from './app/store';
 import { Provider } from 'react-redux';
+import SignUp from './pages/SignUp.tsx';
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
       {
         path: 'login',
         element: <Login />,
+      },
+      {
+        path: 'signup',
+        element: <SignUp />,
       },
       {
         path: 'room/:roomCode',
