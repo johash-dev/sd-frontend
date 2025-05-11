@@ -13,7 +13,11 @@ const RevealGridItem: FC<RevealGridItemProps> = ({ participant, estimate }) => {
   return (
     <div className="flex items-center justify-between bg-[#151B23] px-5 py-5 relative rounded-2xl">
       <div className="flex-1 flex flex-col items-center justify-center gap-2.5">
-        <div className="w-28 h-28 bg-gray-600 rounded-full"></div>
+        <div className="w-28 h-28 bg-gray-600 rounded-full flex items-center justify-center">
+          <span className="text-3xl">
+            {participant.firstName.charAt(0).toUpperCase()}
+          </span>
+        </div>
         <p>{participant.firstName}</p>
       </div>
       <div className="flex-2 flex items-center justify-center">
