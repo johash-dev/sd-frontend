@@ -29,7 +29,7 @@ function App() {
   }, [user]);
 
   return (
-    <div className="h-screen pt-2 bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900">
+    <div className="h-screen pt-2 bg-[#0d1117]">
       <Outlet />
     </div>
   );
