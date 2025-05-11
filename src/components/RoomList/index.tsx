@@ -23,19 +23,21 @@ export function RoomList({ onContinue }: RoomListProps) {
         <CardDescription>Rooms you've recently participated in</CardDescription>
       </CardHeader>
       <CardContent>
-        {userRooms.length > 0 ? (
-          <div className="space-y-4">
-            {userRooms.map((room) => (
-              <RoomCard key={room.id} room={room} onContinue={onContinue} />
-            ))}
-          </div>
-        ) : (
-          <div className="flex flex-col items-center justify-center py-8 text-center">
-            <p className="text-muted-foreground">
-              You haven't joined any rooms yet
-            </p>
-          </div>
-        )}
+        <div className="min-h-[400px]">
+          {userRooms.length > 0 ? (
+            <div className="space-y-4">
+              {userRooms.map((room) => (
+                <RoomCard key={room.id} room={room} onContinue={onContinue} />
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center py-8 text-center">
+              <p className="text-muted-foreground">
+                You haven't joined any rooms yet
+              </p>
+            </div>
+          )}
+        </div>
       </CardContent>
     </Card>
   );

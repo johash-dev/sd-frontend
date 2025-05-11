@@ -31,3 +31,24 @@ export const AppSessionStorage = {
     sessionStorage.setItem('user', userJson);
   },
 };
+
+export const getColorFromName = (name: string) => {
+  const colors = [
+    '#FFB6C1',
+    '#FFD700',
+    '#98FB98',
+    '#87CEFA',
+    '#FFA07A',
+    '#9370DB',
+    '#F4A460',
+    '#40E0D0',
+    '#FA8072',
+    '#00CED1',
+  ];
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const index = Math.abs(hash) % colors.length;
+  return colors[index];
+};

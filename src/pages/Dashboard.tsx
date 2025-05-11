@@ -54,10 +54,10 @@ const Dashboard: FC = () => {
   };
 
   return (
-    <div>
-      <div className="w-full h-20 bg-primary flex items-center justify-between px-5">
+    <div className="px-2">
+      <div className="w-full h-20 bg-primary flex items-center justify-between px-5 rounded-2xl">
         <span className="text-white text-2xl font-semibold">Scrum Deck</span>
-        <User />
+        <User firstName={user?.firstName ?? ''} />
       </div>
       <div className="container mx-auto mt-8">
         <header className="mb-8">

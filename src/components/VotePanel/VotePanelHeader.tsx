@@ -79,7 +79,7 @@ const VotePanelHeader: FC = () => {
         <Button variant="ghost" onClick={onDashboardClickHandler}>
           <RiDashboardFill size={16} color="white" />
         </Button>
-        <User />
+        <User firstName={user?.firstName ?? ''} />
         <span className="text-white font-medium">{user?.firstName}</span>
       </div>
     </div>
