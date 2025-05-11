@@ -83,9 +83,6 @@ export const authSlice = createSlice({
     });
     builder.addCase(verifyToken.rejected, (state) => {
       state.token = '';
-      console.log(window.location);
-
-      // window.location.href = `${window.location.protocol}//${window.location.host}/login`;
     });
   },
 });

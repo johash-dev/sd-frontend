@@ -15,8 +15,6 @@ const StoryList: FC = () => {
 
   useEffect(() => {
     socket.on(SOCKET_EVENTS.SELECTED_STORY, (response: SelectStoryDto) => {
-      console.log('SELECTED STORY', response);
-
       dispatch(selectStoryInRoom(response));
     });
   }, []);

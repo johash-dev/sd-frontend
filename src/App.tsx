@@ -6,6 +6,7 @@ import { verifyToken } from './features/authSlice';
 import socket from './socket';
 import { AppSessionStorage } from './lib/utils';
 import { useSelector } from 'react-redux';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -31,6 +32,7 @@ function App() {
   return (
     <div className="h-screen bg-[#0d1117]">
       <Outlet />
+      <Toaster />
     </div>
   );
 }

@@ -7,6 +7,7 @@ type PokerCardProps = {
   change?: (value: number | null) => void;
   click?: (index: number) => void;
   index: number;
+  size?: 'lg' | 'md';
 };
 
 const PokerCard: FC<PokerCardProps> = ({
@@ -16,9 +17,9 @@ const PokerCard: FC<PokerCardProps> = ({
   click,
   back = false,
   index,
+  size = 'md',
 }) => {
-  let pokerCardClassess =
-    'h-28 w-20 bg-[#F0F0F0] text-black drop-shadow-sm flex items-center justify-center relative rounded-md mb-[-30px] transition-all duration-300';
+  let pokerCardClassess = `h-${size === 'md' ? 28 : 32} w-${size === 'md' ? 20 : 24} bg-[#F0F0F0] text-black drop-shadow-sm flex items-center justify-center relative rounded-md mb-[-30px] transition-all duration-300`;
 
   if (button) {
     pokerCardClassess += ' cursor-pointer hover:-translate-y-8';
@@ -36,7 +37,7 @@ const PokerCard: FC<PokerCardProps> = ({
 
   return (
     <div className={pokerCardClassess} onClick={onClickHandler}>
-      {back || value === null ? (
+      {back ? (
         <>
           <div className="p-1.5 h-full bg-[#3178C6] rounded-md">
             <div className="border border-gray-200 text-gray-200 h-full w-full flex items-center justify-center text-center font-semibold text-sm rounded-md">

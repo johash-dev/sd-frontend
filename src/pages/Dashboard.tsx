@@ -11,6 +11,7 @@ import { User } from '@/components/User';
 import { useSelector } from 'react-redux';
 import { Button } from '@/components/ui/button';
 import { RiAddCircleLine } from '@remixicon/react';
+import CreateRoomDialog from '@/components/CreateRoomDialog';
 
 const Dashboard: FC = () => {
   const dispatch = useAppDispatch();
@@ -33,8 +34,6 @@ const Dashboard: FC = () => {
 
   useEffect(() => {
     socket.on(SOCKET_EVENTS.USER_JOINED, (response: JoinRoomDto) => {
-      console.log('response', response);
-
       if (response && response.roomCode && response.user.id === user?.id) {
         navigate(`/room/${response.roomCode}`);
       }
@@ -69,34 +68,22 @@ const Dashboard: FC = () => {
               Estimate user stories with your team
             </p>
           </div>
-          <Button>
-            <span>
-              <RiAddCircleLine />
-            </span>
-            Create Room
-          </Button>
+          <CreateRoomDialog onConfirm={handleCreateRoom}>
+            <Button>
+              <span>
+                <RiAddCircleLine />
+              </span>
+              Create Room
+            </Button>
+          </CreateRoomDialog>
         </header>
 
         <div className="grid gap-8 md:grid-cols-3">
           <div className="md:col-span-2">
             <RoomList onContinue={handleContinueRoom} />
           </div>
-
           <div>
             <JoinRoomForm onSubmit={handleJoinRoom} />
-
-            {/* <Tabs defaultValue="create" className="w-full">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="create">Create</TabsTrigger>
-                <TabsTrigger value="join">Join</TabsTrigger>
-              </TabsList>
-              <TabsContent value="create">
-                <CreateRoomForm onSubmit={handleCreateRoom} />
-              </TabsContent>
-              <TabsContent value="join">
-                <JoinRoomForm onSubmit={handleJoinRoom} />
-              </TabsContent>
-            </Tabs> */}
           </div>
         </div>
       </div>

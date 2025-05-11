@@ -29,6 +29,7 @@ const CardDeck: FC = () => {
             change={onPokerValueChange}
             index={index}
             key={index}
+            size="lg"
           />
         );
       })}

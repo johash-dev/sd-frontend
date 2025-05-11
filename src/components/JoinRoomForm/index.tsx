@@ -48,7 +48,7 @@ export function JoinRoomForm({ onSubmit }: JoinRoomFormProps) {
         </form>
       </CardContent>
       <CardFooter>
-        <Button type="submit" className="w-full">
+        <Button type="submit" variant="outline" className="w-full">
           Join Room
         </Button>
       </CardFooter>

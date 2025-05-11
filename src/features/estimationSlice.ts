@@ -63,13 +63,16 @@ export const estimationSlice = createSlice({
     setSelectedIndex: (state, action: PayloadAction<number>) => {
       state.selectedIndex = action.payload;
     },
-    setEstimateValues: (state, action: PayloadAction<number[]>) => {
+    setEstimateValues: (state, action: PayloadAction<Array<number | null>>) => {
       if (action.payload.length === 3) {
         action.payload.forEach((value, index) => {
           state.values[index] = value;
         });
         state.selectedIndex = 0;
       }
+    },
+    resetValues: (state) => {
+      state.values = initialState.values;
     },
   },
   extraReducers: (builder) => {
@@ -83,26 +86,16 @@ export const estimationSlice = createSlice({
 });
 
 export function getFibonacciEstimate(O: number, R: number, P: number): number {
-  const fibonacci: number[] = [1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144];
-
   const weightedAverage = (O + 4 * R + P) / 6;
-
-  let closest = fibonacci[0];
-  let minDiff = Math.abs(weightedAverage - closest);
-
-  for (const num of fibonacci) {
-    const diff = Math.abs(weightedAverage - num);
-    if (diff < minDiff) {
-      minDiff = diff;
-      closest = num;
-    }
-  }
-
-  return closest;
+  return parseFloat(weightedAverage.toFixed(2));
 }
 
 // Action creators are generated for each case reducer function
-export const { setEstimationValue, setSelectedIndex, setEstimateValues } =
-  estimationSlice.actions;
+export const {
+  setEstimationValue,
+  setSelectedIndex,
+  setEstimateValues,
+  resetValues,
+} = estimationSlice.actions;
 
 export default estimationSlice.reducer;

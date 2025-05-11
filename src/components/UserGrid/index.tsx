@@ -7,7 +7,7 @@ import { SOCKET_EVENTS } from '@/socket/socket-events';
 import { EstimationReadyDto } from '@/socket/models/estimation.models';
 import { getRoom } from '@/features/roomSlice';
 import { RevealVotesDto } from '@/socket/models/story.models';
-import { setEstimateValues } from '@/features/estimationSlice';
+import { resetValues } from '@/features/estimationSlice';
 import { UserStoryStatus } from '@/models/Story';
 import RevealGridItem from './RevealGridItem';
 
@@ -17,6 +17,7 @@ const UserGrid: FC = () => {
   const { user } = useSelector((state: RootState) => state.auth);
   const { selectedStory, storyRevealed } = useSelector((state: RootState) => {
     const story = state.room.room?.stories.find((s) => s.selected);
+
     const storyRevealed = story?.status === UserStoryStatus.REVEALED;
     return { selectedStory: story, storyRevealed };
   });
@@ -28,34 +29,14 @@ const UserGrid: FC = () => {
 
     socket.on(SOCKET_EVENTS.REVEALED, (response: RevealVotesDto) => {
       dispatch(getRoom(response.roomCode));
+      dispatch(resetValues());
     });
   }, []);
-
-  useEffect(() => {
-    if (
-      selectedStory?.selected === true &&
-      selectedStory.status === UserStoryStatus.REVEALED &&
-      selectedStory.estimations?.length === 3
-    ) {
-      const estimations = selectedStory.estimations.filter(
-        (estimation) => estimation.user.id === user?.id
-      );
-      if (estimations.length) {
-        dispatch(
-          setEstimateValues([
-            estimations[0].optimistic ?? 0,
-            estimations[0].realistic ?? 0,
-            estimations[0].pessimistic ?? 0,
-          ])
-        );
-      }
-    }
-  }, [selectedStory, user, dispatch]);
 
   return (
     <div className="flex-grow p-6">
       <div className="grid grid-cols-2 gap-4 mt-3">
-        {storyRevealed
+        {storyRevealed && selectedStory?.estimations?.length
           ? selectedStory?.estimations?.map((estimate) => {
               return (
                 <RevealGridItem

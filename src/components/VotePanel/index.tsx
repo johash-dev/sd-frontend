@@ -7,6 +7,7 @@ import { SOCKET_EVENTS } from '@/socket/socket-events';
 import { StartedEstimationDto } from '@/socket/models/story.models';
 import { useAppDispatch } from '@/app/store';
 import { startEstimationForSelectedStory } from '@/features/roomSlice';
+import toast from 'react-hot-toast';
 
 const VotePanel: FC = () => {
   const dispatch = useAppDispatch();
@@ -18,9 +19,12 @@ const VotePanel: FC = () => {
         dispatch(
           startEstimationForSelectedStory({ storyId: response.storyId })
         );
+        notify();
       }
     );
   }, []);
+
+  const notify = () => toast('Estimation Started');
 
   return (
     <div className="bg-[#010409] w-full flex flex-col overflow-hidden">

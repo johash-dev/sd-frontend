@@ -11,7 +11,7 @@ type RevealGridItemProps = {
 
 const RevealGridItem: FC<RevealGridItemProps> = ({ participant, estimate }) => {
   return (
-    <div className="flex items-center justify-between bg-white px-5 py-5 relative rounded-2xl">
+    <div className="flex items-center justify-between bg-[#151B23] px-5 py-5 relative rounded-2xl">
       <div className="flex-1 flex flex-col items-center justify-center gap-2.5">
         <div className="w-28 h-28 bg-gray-600 rounded-full"></div>
         <p>{participant.firstName}</p>

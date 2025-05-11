@@ -105,8 +105,6 @@ export const revealEstimate = createAsyncThunk(
 export const updateRoomStory = createAsyncThunk(
   'room/updateStory',
   async (storyDto: UpdateStoryDto) => {
-    console.log(storyDto);
-
     const response = await StoryAPI.updateStory(storyDto);
     return response.data;
   }
@@ -211,8 +209,6 @@ export const roomSlice = createSlice({
 });
 
 const getSelectedStoryId = (stories: StorySummaryDto[]) => {
-  console.log('stories', stories);
-
   return stories.filter((story) => story.selected)[0].id;
 };
 
