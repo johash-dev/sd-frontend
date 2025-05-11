@@ -21,3 +21,17 @@ export interface UnauthorizedExceptionResponse {
   message: string;
   redirectUri: string;
 }
+
+export interface SignUpDto {
+  firstName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
+export interface SignUpResponse {
+  token: string;
+  id: string;
+  firstName: string;
+  email: string;
+}
