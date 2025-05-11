@@ -3,7 +3,11 @@ import { User } from '../User';
 import { RootState, useAppDispatch } from '@/app/store';
 import { useSelector } from 'react-redux';
 import { Button } from '../ui/button';
-import { revealEstimate, startStoryEstimation } from '@/features/roomSlice';
+import {
+  reEstimateStory,
+  revealEstimate,
+  startStoryEstimation,
+} from '@/features/roomSlice';
 import { useNavigate } from 'react-router';
 import { UserStoryStatus } from '@/models/Story';
 import { RiDashboardFill } from '@remixicon/react';
@@ -32,12 +36,19 @@ const VotePanelHeader: FC = () => {
             );
           }
           break;
-        case UserStoryStatus.ACTIVE: {
+        case UserStoryStatus.ACTIVE:
+          {
+            dispatch(
+              revealEstimate({
+                roomId: room.id,
+                storyId: selectedStory.id,
+              })
+            );
+          }
+          break;
+        case UserStoryStatus.REVEALED: {
           dispatch(
-            revealEstimate({
-              roomId: room.id,
-              storyId: selectedStory.id,
-            })
+            reEstimateStory({ roomId: room.id, storyId: selectedStory.id })
           );
         }
       }

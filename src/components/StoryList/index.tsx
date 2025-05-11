@@ -14,10 +14,16 @@ const StoryList: FC = () => {
   const { room } = useSelector((state: RootState) => state.room);
 
   useEffect(() => {
-    socket.on(SOCKET_EVENTS.SELECTED_STORY, (response: SelectStoryDto) => {
+    const handleSelectedStory = (response: SelectStoryDto) => {
       dispatch(selectStoryInRoom(response));
-    });
-  }, []);
+    };
+
+    socket.on(SOCKET_EVENTS.SELECTED_STORY, handleSelectedStory);
+
+    return () => {
+      socket.off(SOCKET_EVENTS.SELECTED_STORY, handleSelectedStory);
+    };
+  }, [dispatch]);
 
   const onSelectStory = (storyId: string, roomCode: string) => {
     dispatch(selectStory({ storyId, roomCode }));

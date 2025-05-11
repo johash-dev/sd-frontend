@@ -32,6 +32,11 @@ export interface StartStoryEstimationDto {
   storyId: string;
 }
 
+export interface ReEstimateDto {
+  roomId: string;
+  storyId: string;
+}
+
 export interface RevealStoryEstimateDto {
   roomId: string;
   storyId: string;

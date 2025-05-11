@@ -3,6 +3,7 @@ import { EstimationReadyDto } from './models/estimation.models';
 import { JoinRoomDto } from './models/room.models';
 import {
   CreateStoryDto,
+  ReEstimateDto,
   RevealStoryEstimateDto,
   SelectStoryDto,
   StartEstimationDto,
@@ -24,6 +25,9 @@ export const SocketEventHandler = {
   },
   handleStartEstimation: (startEstimationDto: StartEstimationDto) => {
     socket.emit(SOCKET_EVENTS.START_ESTIMATION, startEstimationDto);
+  },
+  handleReEstimate: (reEstimateDto: ReEstimateDto) => {
+    socket.emit(SOCKET_EVENTS.RE_ESTIMATE, reEstimateDto);
   },
   handleEstimationReady: (estimationReadyDto: EstimationReadyDto) => {
     socket.emit(SOCKET_EVENTS.READY, estimationReadyDto);

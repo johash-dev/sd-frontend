@@ -12,6 +12,7 @@ import { SocketEventHandler } from '@/socket/socket-event.handler';
 import { JoinRoomDto } from '@/socket/models/room.models';
 import {
   CreateStoryDto,
+  ReEstimateDto,
   RevealStoryEstimateDto,
   SelectStoryDto,
   StartStoryEstimationDto,
@@ -94,6 +95,14 @@ export const startStoryEstimation = createAsyncThunk(
   }
 );
 
+export const reEstimateStory = createAsyncThunk(
+  'room/reEstimateStory',
+  async (reEstimateDto: ReEstimateDto) => {
+    const response = await StoryAPI.reEstimateStory(reEstimateDto);
+    return response.data;
+  }
+);
+
 export const revealEstimate = createAsyncThunk(
   'room/revealEstimations',
   async (revealStoryEstimateDto: RevealStoryEstimateDto) => {
@@ -140,6 +149,7 @@ export const roomSlice = createSlice({
             return {
               ...story,
               status: UserStoryStatus.ACTIVE,
+              estimations: [],
             };
           }
           return story;
@@ -192,6 +202,14 @@ export const roomSlice = createSlice({
     builder.addCase(startStoryEstimation.fulfilled, (state, { payload }) => {
       if (payload && state.room) {
         SocketEventHandler.handleStartEstimation({
+          roomCode: payload.roomCode,
+          storyId: getSelectedStoryId(payload.stories),
+        });
+      }
+    });
+    builder.addCase(reEstimateStory.fulfilled, (state, { payload }) => {
+      if (payload && state.room) {
+        SocketEventHandler.handleReEstimate({
           roomCode: payload.roomCode,
           storyId: getSelectedStoryId(payload.stories),
         });

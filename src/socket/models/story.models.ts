@@ -15,6 +15,11 @@ export interface StartEstimationDto {
   storyId: string;
 }
 
+export interface ReEstimateDto {
+  roomCode: string;
+  storyId: string;
+}
+
 export interface StartedEstimationDto {
   storyId: string;
 }
