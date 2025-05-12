@@ -30,14 +30,22 @@ const Room: FC<HomeProps> = () => {
   }, [params, dispatch, room]);
 
   useEffect(() => {
-    socket.on(SOCKET_EVENTS.USER_JOINED, (response: JoinRoomDto) => {
+    const handleUserJoined = (response: JoinRoomDto) => {
       dispatch(getRoom(response.roomCode));
-    });
+    };
 
-    socket.on(SOCKET_EVENTS.CREATED_STORY, (response: CreateStoryDto) => {
+    const handleCreatedStory = (response: CreateStoryDto) => {
       dispatch(getRoom(response.roomCode));
-    });
-  }, []);
+    };
+
+    socket.on(SOCKET_EVENTS.USER_JOINED, handleUserJoined);
+    socket.on(SOCKET_EVENTS.CREATED_STORY, handleCreatedStory);
+
+    return () => {
+      socket.off(SOCKET_EVENTS.USER_JOINED, handleUserJoined);
+      socket.off(SOCKET_EVENTS.CREATED_STORY, handleCreatedStory);
+    };
+  }, [dispatch]);
 
   return (
     <div className="h-full flex">

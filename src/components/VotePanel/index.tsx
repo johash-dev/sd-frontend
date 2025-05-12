@@ -13,16 +13,17 @@ const VotePanel: FC = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    socket.on(
-      SOCKET_EVENTS.STARTED_ESTIMATION,
-      (response: StartedEstimationDto) => {
-        dispatch(
-          startEstimationForSelectedStory({ storyId: response.storyId })
-        );
-        notify();
-      }
-    );
-  }, []);
+    const handleStartedEstimation = (response: StartedEstimationDto) => {
+      dispatch(startEstimationForSelectedStory({ storyId: response.storyId }));
+      notify();
+    };
+
+    socket.on(SOCKET_EVENTS.STARTED_ESTIMATION, handleStartedEstimation);
+
+    return () => {
+      socket.off(SOCKET_EVENTS.STARTED_ESTIMATION, handleStartedEstimation);
+    };
+  }, [dispatch]);
 
   const notify = () => toast('Estimation Started');
 

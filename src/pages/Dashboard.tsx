@@ -22,23 +22,35 @@ const Dashboard: FC = () => {
     if (user) {
       dispatch(getAllRooms());
     }
-  }, [user]);
+  }, [user, dispatch]);
 
   useEffect(() => {
-    socket.on(SOCKET_EVENTS.CREATED_ROOM, (response: JoinRoomDto) => {
+    const handleCreatedRoom = (response: JoinRoomDto) => {
       if (response && response.roomCode) {
         navigate(`/room/${response.roomCode}`);
       }
-    });
-  }, []);
+    };
+
+    socket.on(SOCKET_EVENTS.CREATED_ROOM, handleCreatedRoom);
+
+    return () => {
+      socket.off(SOCKET_EVENTS.CREATED_ROOM, handleCreatedRoom);
+    };
+  }, [navigate]);
 
   useEffect(() => {
-    socket.on(SOCKET_EVENTS.USER_JOINED, (response: JoinRoomDto) => {
+    const handleUserJoined = (response: JoinRoomDto) => {
       if (response && response.roomCode && response.user.id === user?.id) {
         navigate(`/room/${response.roomCode}`);
       }
-    });
-  }, []);
+    };
+
+    socket.on(SOCKET_EVENTS.USER_JOINED, handleUserJoined);
+
+    return () => {
+      socket.off(SOCKET_EVENTS.USER_JOINED, handleUserJoined);
+    };
+  }, [navigate, user]);
 
   const handleCreateRoom = (title: string) => {
     dispatch(createRoom({ title }));

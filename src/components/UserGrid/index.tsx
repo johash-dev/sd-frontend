@@ -23,15 +23,23 @@ const UserGrid: FC = () => {
   });
 
   useEffect(() => {
-    socket.on(SOCKET_EVENTS.USER_READY, (response: EstimationReadyDto) => {
+    const handleUserReady = (response: EstimationReadyDto) => {
       dispatch(getRoom(response.roomCode));
-    });
+    };
 
-    socket.on(SOCKET_EVENTS.REVEALED, (response: RevealVotesDto) => {
+    const handleRevealed = (response: RevealVotesDto) => {
       dispatch(getRoom(response.roomCode));
       dispatch(resetValues());
-    });
-  }, []);
+    };
+
+    socket.on(SOCKET_EVENTS.USER_READY, handleUserReady);
+    socket.on(SOCKET_EVENTS.REVEALED, handleRevealed);
+
+    return () => {
+      socket.off(SOCKET_EVENTS.USER_READY, handleUserReady);
+      socket.off(SOCKET_EVENTS.REVEALED, handleRevealed);
+    };
+  }, [dispatch]);
 
   return (
     <div className="flex-grow p-6">
