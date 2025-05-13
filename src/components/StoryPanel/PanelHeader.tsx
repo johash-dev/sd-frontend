@@ -3,6 +3,7 @@ import { Button } from '../ui/button';
 import { RiShareFill, RiSettings3Fill } from '@remixicon/react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/store';
+import ShareRoomDialog from '../ShareRoomPopover';
 
 const PanelHeader: FC = () => {
   const { room } = useSelector((state: RootState) => state.room);
@@ -14,9 +15,12 @@ const PanelHeader: FC = () => {
         {/* <p className="text-sm">{room && room?.owner.firstName}</p> */}
       </div>
       <div className="flex gap-6">
-        <Button variant="secondary">
-          <RiShareFill size={36} color="white" />
-        </Button>
+        <ShareRoomDialog>
+          <Button variant="secondary">
+            <RiShareFill size={36} color="white" />
+          </Button>
+        </ShareRoomDialog>
+
         <Button variant="secondary">
           <RiSettings3Fill size={36} color="white" />
         </Button>
