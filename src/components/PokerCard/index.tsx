@@ -19,7 +19,7 @@ const PokerCard: FC<PokerCardProps> = ({
   index,
   size = 'md',
 }) => {
-  let pokerCardClassess = `h-${size === 'md' ? 28 : 32} w-${size === 'md' ? 20 : 24} bg-[#F0F0F0] text-black drop-shadow-sm flex items-center justify-center relative rounded-md mb-[-30px] transition-all duration-300`;
+  let pokerCardClassess = `${size === 'md' ? 'h-28' : 'h-32'} ${size === 'md' ? 'w-20' : 'w-24'} bg-[#F0F0F0] text-black drop-shadow-sm flex items-center justify-center relative rounded-md mb-[-30px] transition-all duration-300`;
 
   if (button) {
     pokerCardClassess += ' cursor-pointer hover:-translate-y-8';
