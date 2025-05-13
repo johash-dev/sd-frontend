@@ -73,6 +73,7 @@ export const estimationSlice = createSlice({
     },
     resetValues: (state) => {
       state.values = initialState.values;
+      state.total = initialState.total;
     },
   },
   extraReducers: (builder) => {
