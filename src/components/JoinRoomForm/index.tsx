@@ -22,15 +22,15 @@ export function JoinRoomForm({ onSubmit }: JoinRoomFormProps) {
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <span className="text-xl">Join Room</span>
-        <p className="text-md text-gray-400">
-          Please join a room with the room code if you were given any
-        </p>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
+      <Card>
+        <CardHeader>
+          <span className="text-xl">Join Room</span>
+          <p className="text-md text-gray-400">
+            Please join a room with the room code if you were given any
+          </p>
+        </CardHeader>
+        <CardContent>
           <div className="space-y-4">
             <div className="space-y-4">
               <label htmlFor="room-code" className="text-sm font-medium">
@@ -45,13 +45,13 @@ export function JoinRoomForm({ onSubmit }: JoinRoomFormProps) {
               />
             </div>
           </div>
-        </form>
-      </CardContent>
-      <CardFooter>
-        <Button type="submit" variant="outline" className="w-full">
-          Join Room
-        </Button>
-      </CardFooter>
-    </Card>
+        </CardContent>
+        <CardFooter>
+          <Button type="submit" variant="outline" className="w-full">
+            Join Room
+          </Button>
+        </CardFooter>
+      </Card>
+    </form>
   );
 }
