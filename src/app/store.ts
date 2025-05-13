@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
-import authReducer from '../features/authSlice';
-import roomReducer from '../features/roomSlice';
-import estimationReducer from '../features/estimationSlice';
+import authReducer from '../features/auth/authSlice';
+import roomReducer from '../features/room/roomSlice';
+import estimationReducer from '../features/estimation/estimationSlice';
 import { useDispatch } from 'react-redux';
 
 export const store = configureStore({

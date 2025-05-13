@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import './App.css';
 import { Outlet, useNavigate } from 'react-router';
 import { RootState, useAppDispatch } from './app/store';
-import { verifyToken } from './features/authSlice';
+import { verifyToken } from './features/auth/authSlice';
 import socket from './socket';
 import { AppSessionStorage } from './lib/utils';
 import { useSelector } from 'react-redux';

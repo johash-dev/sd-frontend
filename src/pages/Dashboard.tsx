@@ -1,6 +1,6 @@
 import { RootState, useAppDispatch } from '@/app/store';
 import { RoomList } from '@/components/RoomList';
-import { createRoom, getAllRooms, joinRoom } from '@/features/roomSlice';
+import { createRoom, getAllRooms, joinRoom } from '@/features/room/roomSlice';
 import socket from '@/socket';
 import { JoinRoomDto } from '@/socket/models/room.models';
 import { SOCKET_EVENTS } from '@/socket/socket-events';

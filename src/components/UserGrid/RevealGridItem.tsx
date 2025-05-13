@@ -2,7 +2,7 @@ import { EstimationDto } from '@/models/Story';
 import { UserResponseDto } from '@/models/User';
 import { FC } from 'react';
 import PokerCard from '../PokerCard';
-import { getFibonacciEstimate } from '@/features/estimationSlice';
+import { getFibonacciEstimate } from '@/features/estimation/estimationSlice';
 
 type RevealGridItemProps = {
   participant: UserResponseDto;

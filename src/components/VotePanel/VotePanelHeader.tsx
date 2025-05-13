@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useMemo, useCallback } from 'react';
 import { User } from '../User';
 import { RootState, useAppDispatch } from '@/app/store';
 import { useSelector } from 'react-redux';
@@ -7,7 +7,7 @@ import {
   reEstimateStory,
   revealEstimate,
   startStoryEstimation,
-} from '@/features/roomSlice';
+} from '@/features/room/roomSlice';
 import { useNavigate } from 'react-router';
 import { UserStoryStatus } from '@/models/Story';
 import { RiDashboardFill } from '@remixicon/react';
@@ -15,56 +15,58 @@ import { RiDashboardFill } from '@remixicon/react';
 const VotePanelHeader: FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { user } = useSelector((state: RootState) => state.auth);
-  const { selectedStory } = useSelector((state: RootState) => {
-    const story = state.room.room?.stories.find((s) => s.selected);
-    return { selectedStory: story };
-  });
+  const user = useSelector((state: RootState) => state.auth.user);
+  const room = useSelector((state: RootState) => state.room.room);
 
-  const { room } = useSelector((state: RootState) => state.room);
+  const selectedStory = useMemo(() => {
+    return room?.stories?.find((s) => s.selected);
+  }, [room?.stories]);
 
-  const startEstimationsClickHandler = () => {
-    if (selectedStory && room) {
-      switch (selectedStory.status) {
-        case UserStoryStatus.PENDING:
-          {
-            dispatch(
-              startStoryEstimation({
-                roomId: room.id,
-                storyId: selectedStory.id,
-              })
-            );
-          }
-          break;
-        case UserStoryStatus.ACTIVE:
-          {
-            dispatch(
-              revealEstimate({
-                roomId: room.id,
-                storyId: selectedStory.id,
-              })
-            );
-          }
-          break;
-        case UserStoryStatus.REVEALED: {
-          dispatch(
-            reEstimateStory({ roomId: room.id, storyId: selectedStory.id })
-          );
-        }
-      }
+  const estimationStatus = useMemo(() => {
+    return {
+      [UserStoryStatus.ACTIVE]: 'Reveal',
+      [UserStoryStatus.COMPLETED]: 'Estimation Complete',
+      [UserStoryStatus.PENDING]: 'Start Estimation',
+      [UserStoryStatus.REVEALED]: 'Re-Estimate',
+    };
+  }, []);
+
+  const estimationButtonVariant = useMemo(() => {
+    return selectedStory?.status === UserStoryStatus.REVEALED
+      ? 'destructive'
+      : 'default';
+  }, [selectedStory?.status]);
+
+  const estimationButtonLabel = useMemo(() => {
+    return selectedStory ? estimationStatus[selectedStory.status] : '';
+  }, [selectedStory, estimationStatus]);
+
+  const startEstimationsClickHandler = useCallback(() => {
+    if (!selectedStory || !room) return;
+
+    const payload = {
+      roomId: room.id,
+      storyId: selectedStory.id,
+    };
+
+    switch (selectedStory.status) {
+      case UserStoryStatus.PENDING:
+        dispatch(startStoryEstimation(payload));
+        break;
+      case UserStoryStatus.ACTIVE:
+        dispatch(revealEstimate(payload));
+        break;
+      case UserStoryStatus.REVEALED:
+        dispatch(reEstimateStory(payload));
+        break;
     }
-  };
+  }, [dispatch, room, selectedStory]);
 
-  const onDashboardClickHandler = () => {
+  const onDashboardClickHandler = useCallback(() => {
     navigate('/dashboard');
-  };
+  }, [navigate]);
 
-  const estimationStatus: Record<UserStoryStatus, string> = {
-    ACTIVE: 'Reveal',
-    COMPLETED: 'Estimation Complete',
-    PENDING: 'Start Estimation',
-    REVEALED: 'Re-Estimate',
-  };
+  const isOwner = useMemo(() => room?.owner.id === user?.id, [room, user]);
 
   return (
     <div className="bg-[#010409] border-b border-b-[#3D444D] h-16 w-full sticky flex justify-between items-center px-5">
@@ -75,18 +77,14 @@ const VotePanelHeader: FC = () => {
         </p>
       </div>
       <div className="flex gap-4 items-center">
-        {room?.owner.id === user?.id ? (
+        {isOwner && selectedStory && (
           <Button
             onClick={startEstimationsClickHandler}
-            variant={
-              selectedStory?.status === UserStoryStatus.REVEALED
-                ? 'destructive'
-                : 'default' //add primary
-            }
+            variant={estimationButtonVariant}
           >
-            {selectedStory && estimationStatus[selectedStory?.status]}
+            {estimationButtonLabel}
           </Button>
-        ) : null}
+        )}
         <Button variant="ghost" onClick={onDashboardClickHandler}>
           <RiDashboardFill size={16} color="white" />
         </Button>

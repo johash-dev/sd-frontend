@@ -2,7 +2,7 @@ import { StoryPanel } from '@/components/StoryPanel';
 import { VotePanel } from '@/components/VotePanel';
 import { FC, ReactNode, useEffect } from 'react';
 import { RootState, useAppDispatch } from '@/app/store';
-import { getRoom, joinRoom } from '@/features/roomSlice';
+import { getRoom, joinRoom } from '@/features/room/roomSlice';
 import { useParams } from 'react-router';
 import socket from '@/socket';
 import { SOCKET_EVENTS } from '@/socket/socket-events';

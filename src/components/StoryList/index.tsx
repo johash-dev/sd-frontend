@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import socket from '@/socket';
 import { SOCKET_EVENTS } from '@/socket/socket-events';
 import { SelectStoryDto } from '@/socket/models/story.models';
-import { selectStory, selectStoryInRoom } from '@/features/roomSlice';
+import { selectStory, selectStoryInRoom } from '@/features/room/roomSlice';
 
 const StoryList: FC = () => {
   const dispatch = useAppDispatch();

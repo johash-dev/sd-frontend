@@ -4,7 +4,7 @@ import { CreateEstimationDto } from '@/models/Story';
 import { EstimationReadyDto } from '@/socket/models/estimation.models';
 import { SocketEventHandler } from '@/socket/socket-event.handler';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { setRoom } from './roomSlice';
+import { setRoom } from '../room/roomSlice';
 
 export interface EstimationState {
   values: Array<number | null>;

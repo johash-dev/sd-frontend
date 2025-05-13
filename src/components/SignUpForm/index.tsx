@@ -5,7 +5,7 @@ import { Label } from '@/components/ui/label';
 import { SignUpDto } from '@/models/Auth';
 import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '@/app/store';
-import { signUpUser } from '@/features/authSlice';
+import { signUpUser } from '@/features/auth/authSlice';
 import { Card, CardContent } from '../ui/card';
 
 export function SignUpForm() {

@@ -3,7 +3,7 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '@/app/store';
-import { createStory } from '@/features/roomSlice';
+import { createStory } from '@/features/room/roomSlice';
 
 const PanelFooter: FC = () => {
   const disptach = useAppDispatch();

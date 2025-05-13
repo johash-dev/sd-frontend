@@ -4,7 +4,7 @@ import { Button } from '../ui/button';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { LoginFormData } from '@/models/Login';
-import { loginUser } from '@/features/authSlice';
+import { loginUser } from '@/features/auth/authSlice';
 import { RootState, useAppDispatch } from '@/app/store';
 import { Checkbox } from '../ui/checkbox';
 import { Label } from '../ui/label';

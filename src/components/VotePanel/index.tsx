@@ -6,7 +6,7 @@ import socket from '@/socket';
 import { SOCKET_EVENTS } from '@/socket/socket-events';
 import { StartedEstimationDto } from '@/socket/models/story.models';
 import { useAppDispatch } from '@/app/store';
-import { startEstimationForSelectedStory } from '@/features/roomSlice';
+import { startEstimationForSelectedStory } from '@/features/room/roomSlice';
 import toast from 'react-hot-toast';
 
 const VotePanel: FC = () => {

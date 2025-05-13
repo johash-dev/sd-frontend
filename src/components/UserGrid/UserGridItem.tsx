@@ -7,7 +7,10 @@ import { StorySummaryDto, UserStoryStatus } from '@/models/Story';
 import { AuthUser } from '@/models/Auth';
 import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '@/app/store';
-import { estimationReady, setSelectedIndex } from '@/features/estimationSlice';
+import {
+  estimationReady,
+  setSelectedIndex,
+} from '@/features/estimation/estimationSlice';
 
 type UserGridItemProps = {
   participant: UserResponseDto;
