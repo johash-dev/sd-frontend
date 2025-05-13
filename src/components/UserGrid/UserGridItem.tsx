@@ -25,40 +25,18 @@ const UserGridItem: FC<UserGridItemProps> = ({
 }) => {
   const dispatch = useAppDispatch();
 
-  const {
-    values,
-    total,
-    room,
-    isCurrentUser,
-    isStoryActive,
-    hasSubmitted,
-    isReady,
-  } = useSelector((state: RootState) => {
-    const { estimation, room } = state;
-    const selectedEstimation = selectedStory?.estimations?.find(
-      (e) => e.user.id === participant.id
-    );
+  const values = useSelector((state: RootState) => state.estimation.values);
+  const total = useSelector((state: RootState) => state.estimation.total);
+  const room = useSelector((state: RootState) => state.room.room);
 
-    const isRoomOwner = user?.id === room.room?.owner.id;
-    const isCurrentUser = participant.id === user?.id;
-    const isStoryActive = selectedStory?.status === UserStoryStatus.ACTIVE;
-    const isStoryEstimateRevealed =
-      selectedStory?.status === UserStoryStatus.REVEALED;
-    const hasSubmitted = !!selectedEstimation;
-    const isReady = selectedEstimation?.ready ?? false;
+  const selectedEstimation = selectedStory?.estimations?.find(
+    (e) => e.user.id === participant.id
+  );
 
-    return {
-      values: estimation.values,
-      total: estimation.total,
-      room: room.room,
-      isRoomOwner,
-      isCurrentUser,
-      isStoryActive,
-      isStoryEstimateRevealed,
-      hasSubmitted,
-      isReady,
-    };
-  });
+  const isCurrentUser = participant.id === user?.id;
+  const isStoryActive = selectedStory?.status === UserStoryStatus.ACTIVE;
+  const hasSubmitted = !!selectedEstimation;
+  const isReady = selectedEstimation?.ready ?? false;
 
   const onPokerCardClickHandler = (index: number) => {
     dispatch(setSelectedIndex(index));
@@ -89,6 +67,7 @@ const UserGridItem: FC<UserGridItemProps> = ({
         </div>
         <p className="text-center">{participant.firstName}</p>
       </div>
+
       <div className="flex-2">
         <div className="grid grid-cols-3 gap-1.5">
           {values.map((value, index) => (
@@ -102,6 +81,7 @@ const UserGridItem: FC<UserGridItemProps> = ({
           ))}
         </div>
       </div>
+
       <div className="flex-1 flex-col items-center text-center text-white">
         {isStoryActive && isCurrentUser && total && !isReady && (
           <>
@@ -114,13 +94,11 @@ const UserGridItem: FC<UserGridItemProps> = ({
         {hasSubmitted && isReady && (
           <>
             <span>Ready!</span>
+            {isCurrentUser && <Button variant="secondary">Not Ready</Button>}
           </>
         )}
-
-        {hasSubmitted && isReady && (
-          <>{isCurrentUser && <Button variant="secondary">Not Ready</Button>}</>
-        )}
       </div>
+
       <Button variant="ghost" className="absolute right-0 top-0">
         <RiMore2Fill size={16} color="black" />
       </Button>
