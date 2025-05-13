@@ -2,7 +2,7 @@ import axiosInstance from 'axios';
 import { AppSessionStorage } from './lib/utils';
 
 const axios = axiosInstance.create({
-  baseURL: 'http://localhost:3000/api/v1',
+  baseURL: 'http://192.168.8.109:3001/api/v1',
 });
 
 axios.interceptors.request.use((config) => {
