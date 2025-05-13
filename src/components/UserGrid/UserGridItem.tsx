@@ -56,7 +56,7 @@ const UserGridItem: FC<UserGridItemProps> = ({
   };
 
   return (
-    <div className="flex items-center justify-between bg-[#151B23] px-5 py-5 relative rounded-2xl">
+    <div className="flex items-center justify-between bg-[#151B23] px-5 py-5 relative rounded-lg">
       <div className="flex-1 flex-col items-center gap-2.5 mr-3">
         <div className="flex items-center justify-center">
           <div className="w-28 h-28 bg-gray-600 rounded-full flex items-center justify-center">
